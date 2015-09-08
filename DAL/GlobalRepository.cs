@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class UnitOfWork : IDisposable
+    public class GlobalRepository : IDisposable
     {
         private MotorDepotDbContext dbContext = new MotorDepotDbContext();
 
         private CarRepository carRepository;
+        private RouteRepository routeRepository;
         private UserRepository userRepository;
 
         public CarRepository CarRepository
@@ -23,6 +24,18 @@ namespace DAL
                     carRepository = new CarRepository(dbContext);
                 }
                 return carRepository;
+            }
+        }
+
+        public RouteRepository RouteRepository
+        {
+            get
+            {
+                if (routeRepository == null)
+                {
+                    routeRepository = new RouteRepository(dbContext);
+                }
+                return routeRepository;
             }
         }
 

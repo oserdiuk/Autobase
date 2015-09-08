@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Autobase.Models.EntityModels
+namespace Autobase.Models.EntityViewModels
 {
     public class IndexCarViewModel
     {

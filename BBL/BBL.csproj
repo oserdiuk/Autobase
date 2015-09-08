@@ -50,17 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitiesToTransfer\Car.cs" />
-    <Compile Include="EntitiesToTransfer\Driver.cs" />
-    <Compile Include="EntitiesToTransfer\DrivingLicense.cs" />
-    <Compile Include="EntitiesToTransfer\DrivingLicenseType.cs" />
-    <Compile Include="EntitiesToTransfer\Manager.cs" />
-    <Compile Include="EntitiesToTransfer\Route.cs" />
-    <Compile Include="EntitiesToTransfer\RouteStatus.cs" />
-    <Compile Include="EntitiesToTransfer\Status.cs" />
-    <Compile Include="EntitiesToTransfer\User.cs" />
-    <Compile Include="IMotorDepotRepository.cs" />
-    <Compile Include="MotorDepotRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

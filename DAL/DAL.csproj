@@ -62,7 +62,7 @@
     <Compile Include="Repositories\CarRepository.cs" />
     <Compile Include="Repositories\DriverRepository.cs" />
     <Compile Include="Repositories\RouteRepository.cs" />
-    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="GlobalRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -8,7 +8,7 @@ namespace DAL.Entities
 {
     public class RouteStatus
     {
-        public int StatusId { get; set; }
+        public int RouteStatusId { get; set; }
         public string StatusName { get; set; }
 
         public virtual ICollection<Route> Routes { get; set; }

@@ -10,7 +10,6 @@ namespace Autobase.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
-    using BBl;
 
     public static class NinjectWebCommon 
     {

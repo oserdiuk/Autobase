@@ -1,5 +1,4 @@
-﻿using BBl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,16 +8,16 @@ namespace Autobase.Controllers
 {
     public class HomeController : Controller
     {
-        private IMotorDepotRepository repository;
+        //private IMotorDepotRepository repository;
 
-        public HomeController(IMotorDepotRepository repository)
-        {
-            this.repository = repository;
-        }
+        //public HomeController(IMotorDepotRepository repository)
+        //{
+        //    this.repository = repository;
+        //}
 
         public ActionResult Index()
         {
-            int i = this.repository.GetUserById(5);
+           // int i = this.repository.GetUserById(5);
             return View();
         }
 
