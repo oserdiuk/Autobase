@@ -1,20 +1,20 @@
-namespace Autobase.Migrations
+namespace DAL.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Autobase.Models.AutobaseDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DAL.MotorDepotDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            ContextKey = "DAL.MotorDepotDbContext";
         }
 
-        protected override void Seed(Autobase.Models.AutobaseDbContext context)
+        protected override void Seed(DAL.MotorDepotDbContext context)
         {
-            
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Autobase.Models
 {
@@ -34,10 +37,65 @@ namespace Autobase.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-    }
 
+        [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string SecondName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime BirthDate { get; set; }
+
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(13)]
+        public string Phone { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime EmploymentDate { get; set; }
+
+        public List<SelectListItem> AllDrivingLicenses { get; set; }
+        
+        public List<string> SelectedDrivingLicenses { get; set; }
+
+        public RegisterViewModel()
+        {
+            this.SelectedDrivingLicenses = new List<string>();
+            this.AllDrivingLicenses = new List<SelectListItem>();
+        }
+
+        public RegisterViewModel(List<DAL.Entities.DrivingLicenseType> licenses)
+        {
+            if (licenses != null)
+            {
+                this.SelectedDrivingLicenses = new List<string>();
+                this.AllDrivingLicenses = new List<SelectListItem>();
+                foreach (var license in licenses)
+                {
+                    this.AllDrivingLicenses.Add(new SelectListItem()
+                    {
+                        Text = String.Format("{0} ({1})", license.Category, license.TransportType),
+                        Value = license.DrivingLicenseTypeId.ToString()
+                    });
+                }
+            }
+        }
+
+    }
 
     //public class ExternalLoginConfirmationViewModel
     //{
@@ -82,7 +140,7 @@ namespace Autobase.Models
     //    public string Email { get; set; }
     //}
 
-    
+
 
     //public class ResetPasswordViewModel
     //{

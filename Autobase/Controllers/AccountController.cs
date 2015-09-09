@@ -9,48 +9,53 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Autobase.Models;
+using WebMatrix.WebData;
+using System.Web.Security;
+using DAL;
+using BBL.DbManager;
 
 namespace Autobase.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private RouteDbManager dbManager = new RouteDbManager();
+        //private ApplicationSignInManager _signInManager;
+        //private ApplicationUserManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        //{
+        //    UserManager = userManager;
+        //    SignInManager = signInManager;
+        //}
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
+        //public ApplicationSignInManager SignInManager
+        //{
+        //    get
+        //    {
+        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        //    }
+        //    private set
+        //    {
+        //        _signInManager = value;
+        //    }
+        //}
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
         //
         // GET: /Account/Login
@@ -66,29 +71,20 @@ namespace Autobase.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var result = WebSecurity.Login(model.Email, model.Password, model.RememberMe);
+            if (result)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                return RedirectToLocal(returnUrl);
             }
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View(model);
         }
 
         ////
@@ -137,54 +133,73 @@ namespace Autobase.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
-            return View();
+            ViewBag.ReturnUrl = returnUrl;
+            return View(new RegisterViewModel(dbManager.GetDrivingLicenseTypes()));
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                try
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    if (model.EmploymentDate == null)
+                    {
+                        model.EmploymentDate = DateTime.Now;
+                    }
+                    var r = WebSecurity.CreateUserAndAccount(model.Email, model.Password, new
+                        {
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            SecondName = model.SecondName,
+                            BirthDate = model.BirthDate,
+                            Address = model.Address,
+                            City = model.City,
+                            Phone = model.Phone,
+                            EmploymentDate = model.EmploymentDate,
+                            IsDeleted = false
+                        });
 
-                    return RedirectToAction("Index", "Home");
+                    SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
+                    if (model.SelectedDrivingLicenses.Count() > 0)
+                    {
+                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Driver" });
+                        dbManager.CreateDriverLicenses(model.SelectedDrivingLicenses);
+                    }
+                    else
+                    {
+                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
+                    }
+                    return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
-            }
+                catch (Exception ex)
+                {
 
-            // If we got this far, something failed, redisplay form
+                    throw;
+                }
+            }
             return View(model);
         }
 
         //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return View("Error");
-            }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
-
+        //// GET: /Account/ConfirmEmail
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
+        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        //}
+                
         ////
         //// GET: /Account/ForgotPassword
         //[AllowAnonymous]
@@ -403,25 +418,25 @@ namespace Autobase.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        if (_userManager != null)
+        //        {
+        //            _userManager.Dispose();
+        //            _userManager = null;
+        //        }
 
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
+        //        if (_signInManager != null)
+        //        {
+        //            _signInManager.Dispose();
+        //            _signInManager = null;
+        //        }
+        //    }
 
-            base.Dispose(disposing);
-        }
+        //    base.Dispose(disposing);
+        //}
 
         #region Helpers
         // Used for XSRF protection when adding external logins

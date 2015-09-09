@@ -20,7 +20,7 @@ namespace DAL.Repositories
 
         public IEnumerable<Route> GetAll()
         {
-            return dbContext.Routes;
+            return dbContext.Routes.ToList();
         }
 
         public Route Get(int id)

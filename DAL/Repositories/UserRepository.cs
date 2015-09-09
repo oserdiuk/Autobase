@@ -2,6 +2,7 @@
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,27 +20,29 @@ namespace DAL.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            return dbContext.Users;
         }
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return dbContext.Users.Find(id);
         }
 
         public void Create(User item)
         {
-            throw new NotImplementedException();
+            dbContext.Users.Add(item);
         }
 
         public void Update(User item)
         {
-            throw new NotImplementedException();
+            dbContext.Entry(item).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            User user = dbContext.Users.Find(id);
+            if (user != null)
+                dbContext.Users.Remove(user);
         }
     }
 }

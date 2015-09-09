@@ -1,6 +1,8 @@
 ﻿using DAL;
+using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -20,7 +22,7 @@ namespace Autobase.App_Start
 
                     WebSecurity.InitializeDatabaseConnection("MotorDepotDbContext", "User", "UserId", "Email", autoCreateTables: true);
                     SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
-
+                    Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MotorDepotDbContext>());
                     SimpleMembershipProvider membership = (SimpleMembershipProvider)Membership.Provider;
 
                     if (!roles.RoleExists("Admin"))
@@ -38,22 +40,35 @@ namespace Autobase.App_Start
                         roles.CreateRole("Manager");
                     }
 
-                    if (membership.GetUser("admin", false) == null)
+                    User userAdmin = new User()
                     {
-                        WebSecurity.CreateUserAndAccount("admin", "qwerty123", new
+                        Email = "admin@mail.com",
+                        FirstName = "Оксана",
+                        SecondName = "Сердюк",
+                        BirthDate = new DateTime(1996, 8, 31),
+                        Address = "Целиноградская, 36",
+                        City = "Харьков",
+                        Phone = "+380508500243",
+                        EmploymentDate = new DateTime(2015, 9, 6),
+                        IsDeleted = false
+                    };
+
+                    if (membership.GetUser("admin@mail.com", false) == null)
+                    {
+                        WebSecurity.CreateUserAndAccount(userAdmin.Email, "qwerty123", new
                         {
-                            Email = "admin@mail.com",
-                            FirstName = "Оксана",
-                            SecondName = "Сердюк",
-                            BirthDate = new DateTime(1996, 8, 31),
-                            Address = "Целиноградская, 36",
-                            City = "Харьков",
-                            Phone = "+380508500243",
-                            EmploymentDate = new DateTime(2015, 9, 6),
-                            IsDeleted = false
+                            Email = userAdmin.Email,
+                            FirstName = userAdmin.FirstName,
+                            SecondName = userAdmin.SecondName,
+                            BirthDate = userAdmin.BirthDate,
+                            Address = userAdmin.Address,
+                            City = userAdmin.City,
+                            Phone = userAdmin.Phone,
+                            EmploymentDate = userAdmin.EmploymentDate,
+                            IsDeleted = userAdmin.IsDeleted
                         });
 
-                        roles.AddUsersToRoles(new[] { "admin" }, new[] { "Admin" });
+                        roles.AddUsersToRoles(new[] { "admin@mail.com" }, new[] { "Admin" });
                     }
                 }
             }

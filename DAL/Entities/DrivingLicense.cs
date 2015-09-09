@@ -14,5 +14,16 @@ namespace DAL.Entities
 
         public virtual Driver Driver { get; set; }
         public virtual DrivingLicenseType DrivingLicenseType { get; set; }
+
+        public DrivingLicense()
+        {
+
+        }
+
+        public DrivingLicense(int licenseTypeId, int driverId)
+        {
+            this.DrivingLicenseTypeId = licenseTypeId;
+            this.DriverId = driverId;
+        }
     }
 }

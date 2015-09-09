@@ -20,7 +20,7 @@ namespace Autobase.Controllers
         // GET: Route/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(IndexRouteViewModel.GetViewModel(repository.RouteRepository, id));
         }
 
         // GET: Route/Create
