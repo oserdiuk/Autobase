@@ -29,5 +29,40 @@ namespace BBL.DbManager
             }
             repository.Save();
         }
+
+        public List<string> GetCarTypes()
+        {
+            return repository.DrivingLicenseTypeRepository.GetAll().Select(type => type.TransportType).ToList<string>();
+        }
+
+        public void CreateCar(Car car)
+        {
+            try
+            {
+                car.IsIntegral = true;
+                this.repository.CarRepository.Create(car);
+                this.repository.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Car> GetCarsFreeForRoute()
+        {
+            return this.repository.CarRepository.GetAll().Where(car => car.IsIntegral && !car.IsBusy).ToList<Car>();
+        }
+
+        public List<RouteStatus> GetRouteStatuses()
+        {
+            return this.repository.RouteStatusRepository.GetAll().ToList<RouteStatus>();
+        }
+
+        public void CreateRoute(Route route)
+        {
+            this.repository.RouteRepository.Create(route);
+            this.repository.Save();
+        }
     }
 }

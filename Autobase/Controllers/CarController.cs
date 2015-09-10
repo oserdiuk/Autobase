@@ -1,5 +1,4 @@
 ﻿using Autobase.Models.EntityViewModels;
-using AutoMapper;
 using BBL.DbManager;
 using DAL.Entities;
 using System;
@@ -10,55 +9,55 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
-    public class RouteController : Controller
+    public class CarController : Controller
     {
         DAL.GlobalRepository repository = new DAL.GlobalRepository();
         RouteDbManager dbManager = new RouteDbManager();
 
-        // GET: Route
+        // GET: Car
         public ActionResult Index()
         {
-            return View(IndexRouteViewModel.GetViewListOfRoutes(repository));
+            return View(IndexCarViewModel.GetViewListOfCars(repository));
         }
 
-        // GET: Route/Details/5
+        // GET: Car/Details/5
         public ActionResult Details(int id)
         {
-            return View(IndexRouteViewModel.GetViewModel(repository, id));
+            return View(IndexCarViewModel.GetViewModel(repository, id));
         }
 
-        // GET: Route/Create
+        // GET: Car/Create
         public ActionResult Create()
         {
-            return View(new CreateRouteViewModel());
+            return View(new CreateCarViewModel());
         }
 
-        // POST: Route/Create
+        // POST: Car/Create
         [HttpPost]
-        public ActionResult Create(CreateRouteViewModel model)
+        public ActionResult Create(CreateCarViewModel viewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    dbManager.CreateRoute(AutoMapper.Mapper.Map<CreateRouteViewModel, Route>(model));
+                    dbManager.CreateCar(AutoMapper.Mapper.Map<CreateCarViewModel, Car>(viewModel));
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception ex)
+            catch
             {
+                return View();
             }
-            return View(model);
-
+            return View(viewModel);
         }
 
-        // GET: Route/Edit/5
+        // GET: Car/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Route/Edit/5
+        // POST: Car/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -74,13 +73,13 @@ namespace Autobase.Controllers
             }
         }
 
-        // GET: Route/Delete/5
+        // GET: Car/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Route/Delete/5
+        // POST: Car/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

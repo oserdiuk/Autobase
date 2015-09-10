@@ -12,7 +12,8 @@ namespace DAL.Entities
         public string CarNumber { get; set; }
         public string Model { get; set; }
         public int SeatingAccommodation { get; set; }
-        public bool Integrity { get; set; }
+        public bool IsIntegral { get; set; }
+        public bool IsBusy { get; set; }
         public int Capacity { get; set; }
         public string Type { get; set; }
 

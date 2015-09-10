@@ -13,6 +13,7 @@ namespace DAL
 
         private CarRepository carRepository;
         private RouteRepository routeRepository;
+        private RouteStatusRepository routeStatusRepository;
         private UserRepository userRepository;
         private DrivingLicenseRepository drivingLicenseRepository;
         private DriverRepository driverRepository;
@@ -54,6 +55,18 @@ namespace DAL
             }
         }
 
+        public RouteStatusRepository RouteStatusRepository
+        {
+            get
+            {
+                if (routeStatusRepository == null)
+                {
+                    routeStatusRepository = new RouteStatusRepository(dbContext);
+                }
+                return routeStatusRepository;
+            }
+        }
+
         public RouteRepository RouteRepository
         {
             get
@@ -89,7 +102,7 @@ namespace DAL
                 return driverRepository;
             }
         }
-        
+
         public void Save()
         {
             dbContext.SaveChanges();

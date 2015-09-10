@@ -66,6 +66,7 @@
     <Compile Include="Repositories\DrivingLicenseTypeRepository.cs" />
     <Compile Include="Repositories\RouteRepository.cs" />
     <Compile Include="GlobalRepository.cs" />
+    <Compile Include="Repositories\RouteStatusRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
