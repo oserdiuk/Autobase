@@ -61,6 +61,7 @@ namespace BBL.DbManager
 
         public void CreateRoute(Route route)
         {
+            route.CreatingDate = DateTime.Now;
             this.repository.RouteRepository.Create(route);
             this.repository.Save();
         }
