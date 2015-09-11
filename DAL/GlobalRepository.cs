@@ -1,4 +1,5 @@
-﻿using DAL.Repositories;
+﻿using DAL.Entities;
+using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,29 @@ namespace DAL
                 }
                 return driverRepository;
             }
+        }
+
+        public void UpdateRouteStatuses()
+        {
+            var statuses = this.RouteStatusRepository.GetAll();
+            this.RouteRepository.GetAll().Where(route => route.DepartureDate < DateTime.Now).ToList<Route>()
+                .ForEach(route => route.RouteStatusId = statuses
+                    .Where(s => s.StatusName.ToLower().Contains("выполняется")).FirstOrDefault().RouteStatusId);
+
+            this.RouteRepository.GetAll().Where(route => route.ArrivalDate < DateTime.Now).ToList<Route>()
+                .ForEach(route =>
+                {
+                    route.RouteStatusId = statuses
+                        .Where(s => s.StatusName.ToLower().Contains("выполнен")).FirstOrDefault().RouteStatusId;
+                    FreeCar(route.CarId);
+                }
+            );
+            this.Save();
+        }
+
+        private void FreeCar(int carId)
+        {
+            this.CarRepository.Get(carId).IsBusy = false;
         }
 
         public void Save()

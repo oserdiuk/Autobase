@@ -55,23 +55,28 @@ namespace Autobase.Controllers
         // GET: Route/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var route = dbManager.GetRoute(id);
+            var view = AutoMapper.Mapper.Map<Route, EditRouteViewModel>(route);
+            return View(view);
         }
 
         // POST: Route/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, EditRouteViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    dbManager.EditRoute(AutoMapper.Mapper.Map<EditRouteViewModel, Route>(model));
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
             }
+            return View(model);
+
         }
 
         // GET: Route/Delete/5

@@ -20,44 +20,59 @@
         <th>
             @Html.DisplayNameFor(model => model.SeatingAccommodation)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsIntegral)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Capacity)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Type)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsIntegral)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBusy)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CarNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SeatingAccommodation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsIntegral)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Capacity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeatingAccommodation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsIntegral)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBusy)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.CarId }) |
+                @Html.ActionLink("Подробнее", "Details", new { id = item.CarId }) |
+                @if (item.IsBusy)
+                {
+                    <span title="Машина в пути, удаление невозможно.">Удалить</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.CarId })
+                }
+            </td>
+        </tr>
+    }
 
 </table>

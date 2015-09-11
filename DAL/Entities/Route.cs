@@ -14,8 +14,10 @@ namespace DAL.Entities
         public DateTime DepartureDate { get; set; }
         public DateTime ArrivalDate { get; set; }
         public int CarId { get; set; }
+        public int DriverId { get; set; }
         public int RouteStatusId { get; set; }
 
+        public virtual Driver Driver { get; set; }
         public virtual Car Car { get; set; }
         public virtual RouteStatus RouteStatus { get; set; }
     }

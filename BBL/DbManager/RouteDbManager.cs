@@ -12,6 +12,11 @@ namespace BBL.DbManager
     {
         GlobalRepository repository = new GlobalRepository();
 
+        public RouteDbManager()
+        {
+            repository.UpdateRouteStatuses();
+        }
+
         public List<DrivingLicenseType> GetDrivingLicenseTypes()
         {
             return repository.DrivingLicenseTypeRepository.GetAll().ToList<DrivingLicenseType>();
@@ -63,7 +68,31 @@ namespace BBL.DbManager
         {
             route.CreatingDate = DateTime.Now;
             this.repository.RouteRepository.Create(route);
+            this.repository.CarRepository.Get(route.CarId).IsBusy = true;
             this.repository.Save();
+        }
+
+        public void EditRoute(Route route)
+        {
+            this.repository.RouteRepository.Update(route);
+            this.repository.Save();
+            this.repository.UpdateRouteStatuses();
+        }
+
+        public Route GetRoute(int id)
+        {
+            return this.repository.RouteRepository.Get(id);
+        }
+
+        public void EditCar(Car car)
+        {
+            this.repository.CarRepository.Update(car);
+            this.repository.Save();
+        }
+
+        public Car GetCar(int id)
+        {
+            return this.repository.CarRepository.Get(id);
         }
     }
 }

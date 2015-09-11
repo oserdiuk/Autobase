@@ -44,9 +44,8 @@ namespace Autobase.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
             }
             return View(viewModel);
         }
@@ -54,23 +53,26 @@ namespace Autobase.Controllers
         // GET: Car/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(AutoMapper.Mapper.Map<Car, EditCarViewModel>(dbManager.GetCar(id)));
         }
 
         // POST: Car/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, EditCarViewModel viewModel)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    dbManager.EditCar(AutoMapper.Mapper.Map<EditCarViewModel, Car>(viewModel));
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
             }
+            return View(viewModel);
+
         }
 
         // GET: Car/Delete/5

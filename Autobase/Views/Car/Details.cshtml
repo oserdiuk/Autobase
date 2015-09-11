@@ -1,0 +1,74 @@
+﻿@model Autobase.Models.EntityViewModels.IndexCarViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IndexCarViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CarNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatingAccommodation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatingAccommodation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBusy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsBusy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsIntegral)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsIntegral)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Capacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

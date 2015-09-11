@@ -14,6 +14,7 @@ namespace DAL.Entities
 
         public virtual User User { get; set; }
         public virtual ICollection<DrivingLicense> DrivingLicenses { get; set; }
+        public virtual ICollection<Route> Routes { get; set; }
 
         public Driver()
         {

@@ -1,24 +1,24 @@
 ﻿using AutoMapper;
-using BBL.DbManager;
 using DAL;
-using DAL.Abstract;
 using DAL.Entities;
-using DAL.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Autobase.Helpers;
 
 namespace Autobase.Models.EntityViewModels
 {
     public class IndexCarViewModel
     {
+        public string CarId { get; set; }
+
         public string CarNumber { get; set; }
 
         public string Model { get; set; }
 
         public int SeatingAccommodation { get; set; }
+
+        public bool IsBusy { get; set; }
 
         public bool IsIntegral { get; set; }
 
@@ -58,21 +58,27 @@ namespace Autobase.Models.EntityViewModels
 
         public CreateCarViewModel()
         {
-            RouteDbManager manager = new RouteDbManager();
             this.AllCarTypes = new List<SelectListItem>();
-            List<string> types = manager.GetCarTypes();
-            foreach (var type in types)
-            {
-                this.AllCarTypes.Add(new SelectListItem()
-                {
-                    Text = type,
-                    Value = type
-                });
-            }
+            this.AllCarTypes.AddCarTypes();
         }
+
     }
 
     public class EditCarViewModel
     {
+        public string CarId { get; set; }
+        public string CarNumber { get; set; }
+        public string Model { get; set; }
+        public int SeatingAccommodation { get; set; }
+        public int Capacity { get; set; }
+        public string Type { get; set; }
+        public List<SelectListItem> AllCarTypes { get; set; }
+
+        public EditCarViewModel()
+        {
+            this.AllCarTypes = new List<SelectListItem>();
+            this.AllCarTypes.AddCarTypes();
+        }
     }
+
 }
