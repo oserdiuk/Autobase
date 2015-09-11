@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Autobase.Helpers;
+using Foolproof;
 
 namespace Autobase.Models.EntityViewModels
 {
@@ -66,6 +67,7 @@ namespace Autobase.Models.EntityViewModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [GreaterThanOrEqualTo("DepartureDate", ErrorMessage = "Дата приезда не может быть меньше чем дата выезда.")]
         public DateTime ArrivalDate { get; set; }
 
         [DataType(DataType.Time)]
@@ -74,22 +76,29 @@ namespace Autobase.Models.EntityViewModels
 
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [GreaterThan("DepartureTime", ErrorMessage = "Время приезда не может быть меньше чем время выезда.")]
         public DateTime ArrivalTime { get; set; }
 
         public string CarId { get; set; }
 
         public string RouteStatusId { get; set; }
 
+        public string DriverId { get; set; }
+
         public List<SelectListItem> RouteStatuses { get; set; }
+
+        public List<SelectListItem> Drivers { get; set; }
 
         public List<SelectListItem> Cars { get; set; }
 
         public CreateRouteViewModel()
         {
             this.RouteStatuses = new List<SelectListItem>();
+            this.Drivers = new List<SelectListItem>();
             this.Cars = new List<SelectListItem>();
             this.RouteStatuses.AddRouteStatuses();
             this.Cars.AddFreeCars();
+            this.Drivers.AddDrivers();
         }
 
     }
@@ -120,7 +129,11 @@ namespace Autobase.Models.EntityViewModels
 
         public string RouteStatusId { get; set; }
 
+        public string DriverId { get; set; }
+
         public List<SelectListItem> RouteStatuses { get; set; }
+
+        public List<SelectListItem> Drivers { get; set; }
 
         public List<SelectListItem> Cars { get; set; }
 
@@ -130,6 +143,8 @@ namespace Autobase.Models.EntityViewModels
             this.Cars = new List<SelectListItem>();
             this.RouteStatuses.AddRouteStatuses(Convert.ToInt32(this.RouteStatusId));
             this.Cars.AddFreeCars(Convert.ToInt32(this.CarId));
+            this.Drivers = new List<SelectListItem>();
+            this.Drivers.AddDrivers();
         }
     }
 }

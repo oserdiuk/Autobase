@@ -24,6 +24,26 @@ namespace Autobase.Helpers
             }
         }
 
+        public static void AddDrivers(this List<SelectListItem> list)
+        {
+            RouteDbManager manager = new RouteDbManager();
+            List<Driver> drivers = manager.GetDrivers();
+            string driverLicenses = String.Empty;
+            foreach (var driver in drivers)
+            {
+                foreach (var license in driver.DrivingLicenses)
+                {
+                    driverLicenses += license.DrivingLicenseType.Category + ", ";
+                }
+
+                list.Add(new SelectListItem()
+                {
+                    Text = String.Format("{0} {1} ({2})", driver.User.FirstName, driver.User.SecondName, driverLicenses.Substring(0, driverLicenses.Length - 3)),
+                    Value = driver.DriverId.ToString()
+                });
+            }
+        }
+
         public static void AddFreeCars(this List<SelectListItem> list, int currentCarId = 0)
         {
             RouteDbManager dbManager = new RouteDbManager();

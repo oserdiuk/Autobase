@@ -175,6 +175,7 @@ namespace Autobase.Controllers
                     else
                     {
                         roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
+                        dbManager.CreateManager();
                     }
                     return RedirectToLocal(returnUrl);
                 }

@@ -64,6 +64,7 @@
     <Compile Include="Repositories\DriverRepository.cs" />
     <Compile Include="Repositories\DrivingLicenseRepository.cs" />
     <Compile Include="Repositories\DrivingLicenseTypeRepository.cs" />
+    <Compile Include="Repositories\ManagerRepository.cs" />
     <Compile Include="Repositories\RouteRepository.cs" />
     <Compile Include="GlobalRepository.cs" />
     <Compile Include="Repositories\RouteStatusRepository.cs" />

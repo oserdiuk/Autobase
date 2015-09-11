@@ -13,5 +13,15 @@ namespace DAL.Entities
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
+
+        public Manager()
+        {
+
+        }
+
+        public Manager(int userId)
+        {
+            this.UserId = userId;
+        }
     }
 }

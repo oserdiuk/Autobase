@@ -15,6 +15,7 @@ namespace DAL
         private CarRepository carRepository;
         private RouteRepository routeRepository;
         private RouteStatusRepository routeStatusRepository;
+        private ManagerRepository managerRepository;
         private UserRepository userRepository;
         private DrivingLicenseRepository drivingLicenseRepository;
         private DriverRepository driverRepository;
@@ -68,6 +69,18 @@ namespace DAL
             }
         }
 
+        public ManagerRepository ManagerRepository
+        {
+            get
+            {
+                if (managerRepository == null)
+                {
+                    managerRepository = new ManagerRepository(dbContext);
+                }
+                return managerRepository;
+            }
+        }
+
         public RouteRepository RouteRepository
         {
             get
@@ -107,19 +120,38 @@ namespace DAL
         public void UpdateRouteStatuses()
         {
             var statuses = this.RouteStatusRepository.GetAll();
-            this.RouteRepository.GetAll().Where(route => route.DepartureDate < DateTime.Now).ToList<Route>()
-                .ForEach(route => route.RouteStatusId = statuses
-                    .Where(s => s.StatusName.ToLower().Contains("выполняется")).FirstOrDefault().RouteStatusId);
+            var inProgressId = statuses
+                    .Where(s => s.StatusName.ToLower().Contains("выполняется")).FirstOrDefault().RouteStatusId;
+            var doneId = statuses
+                        .Where(s => s.StatusName.ToLower().Contains("выполнен")).FirstOrDefault().RouteStatusId;
 
-            this.RouteRepository.GetAll().Where(route => route.ArrivalDate < DateTime.Now).ToList<Route>()
+            var routes = this.RouteRepository.GetAll();
+            routes.Where(route => route.DepartureDate < DateTime.Now).ToList<Route>()
+                .ForEach(route => route.RouteStatusId = inProgressId);
+
+            routes.Where(route => route.ArrivalDate < DateTime.Now).ToList<Route>()
                 .ForEach(route =>
                 {
-                    route.RouteStatusId = statuses
-                        .Where(s => s.StatusName.ToLower().Contains("выполнен")).FirstOrDefault().RouteStatusId;
+                    route.RouteStatusId = doneId;
                     FreeCar(route.CarId);
                 }
             );
-            this.Save();
+
+            this.CarRepository.GetAll().ToList<Car>().ForEach(car =>
+            {
+                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now).FirstOrDefault() != null)
+                {
+                    if (car.Routes.Where(route => route.ArrivalDate < DateTime.Now).FirstOrDefault() != null)
+                    {
+                        car.IsBusy = false;
+                    }
+                    else
+                    {
+                        car.IsBusy = true;
+                    }
+                }
+            });
+            dbContext.SaveChanges();
         }
 
         private void FreeCar(int carId)
@@ -129,7 +161,7 @@ namespace DAL
 
         public void Save()
         {
-            dbContext.SaveChanges();
+            UpdateRouteStatuses();
         }
 
         private bool disposed = false;
