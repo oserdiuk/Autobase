@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Autobase.Helpers;
 using Foolproof;
+using Autobase.Helpers.ValidationAttributes;
 
 namespace Autobase.Models.EntityViewModels
 {
@@ -62,10 +63,12 @@ namespace Autobase.Models.EntityViewModels
         public string Direction { get; set; }
 
         [DataType(DataType.Date)]
+      //  [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DepartureDate { get; set; }
 
         [DataType(DataType.Date)]
+       // [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
         [GreaterThanOrEqualTo("DepartureDate", ErrorMessage = "Дата приезда не может быть меньше чем дата выезда.")]
         public DateTime ArrivalDate { get; set; }
@@ -110,19 +113,25 @@ namespace Autobase.Models.EntityViewModels
         public string Direction { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:mm-dd-yyyy}", ApplyFormatInEditMode = true)]
+     //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
+        public DateTime CreatingDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+     //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         public DateTime DepartureDate { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime ArrivalDate { get; set; }
 
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh-mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime DepartureTime { get; set; }
 
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime ArrivalTime { get; set; }
 
         public string CarId { get; set; }

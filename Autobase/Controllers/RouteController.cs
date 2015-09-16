@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Autobase.Controllers
 {
+    [Authorize]
     public class RouteController : Controller
     {
         DAL.GlobalRepository repository = new DAL.GlobalRepository();
@@ -41,7 +43,8 @@ namespace Autobase.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dbManager.CreateRoute(AutoMapper.Mapper.Map<CreateRouteViewModel, Route>(model));
+                    bool isDriver = Roles.IsUserInRole("Driver");
+                    dbManager.CreateRoute(AutoMapper.Mapper.Map<CreateRouteViewModel, Route>(model), isDriver);
                     return RedirectToAction("Index");
                 }
             }
@@ -82,7 +85,11 @@ namespace Autobase.Controllers
         // GET: Route/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (dbManager.CheckRouteForActive(id))
+            {
+                return View();
+            }
+            return View(IndexRouteViewModel.GetViewModel(repository, id));
         }
 
         // POST: Route/Delete/5
@@ -91,8 +98,7 @@ namespace Autobase.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                dbManager.DeleteRoute(id);
                 return RedirectToAction("Index");
             }
             catch

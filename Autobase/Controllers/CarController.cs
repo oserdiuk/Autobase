@@ -1,4 +1,5 @@
-﻿using Autobase.Models.EntityViewModels;
+﻿using Autobase.Helpers;
+using Autobase.Models.EntityViewModels;
 using BBL.DbManager;
 using DAL.Entities;
 using System;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
+    [RoleAuthorized(Roles = "Admin, Manager")]
     public class CarController : Controller
     {
         DAL.GlobalRepository repository = new DAL.GlobalRepository();

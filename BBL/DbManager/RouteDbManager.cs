@@ -59,10 +59,14 @@ namespace BBL.DbManager
             return this.repository.RouteStatusRepository.GetAll().ToList<RouteStatus>();
         }
 
-        public void CreateRoute(Route route)
+        public void CreateRoute(Route route, bool userInRoleDriver)
         {
             route.CreatingDate = DateTime.Now;
-            route.RouteStatusId = 1;
+            route.RouteStatusId = this.repository.GetWaitingForDepartStatusId();
+            if (userInRoleDriver)
+            {
+                route.RouteStatusId = this.repository.GetWaitingForConfirmStatusId();
+            }
             this.repository.RouteRepository.Create(route);
             this.repository.Save();
         }
@@ -100,6 +104,18 @@ namespace BBL.DbManager
             int userId = repository.UserRepository.GetAll().LastOrDefault().UserId;
             this.repository.ManagerRepository.Create(new Manager(userId));
             this.repository.Save();
+        }
+
+        public void DeleteRoute(int id)
+        {
+            this.repository.RouteRepository.Delete(id);
+            this.repository.Save();
+        }
+
+        public bool CheckRouteForActive(int id)
+        {
+            int doneStatuseId = this.repository.GetInProgressStatusId();
+            return this.repository.RouteRepository.Get(id).RouteStatusId == doneStatuseId;
         }
     }
 }

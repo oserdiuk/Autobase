@@ -197,6 +197,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\ValidationAttributes\MinDateValidationAttribute.cs" />
+    <Compile Include="Helpers\ValidationAttributes\RoleAuthorizedAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EntityViewModels\CarViewModel.cs" />
     <Compile Include="Models\EntityViewModels\RouteViewModel.cs" />
@@ -263,6 +265,8 @@
     <Content Include="Views\Car\Index.cshtml" />
     <Content Include="Views\Route\Edit.cshtml" />
     <Content Include="Views\Car\Details.cshtml" />
+    <Content Include="Views\Car\Edit.cshtml" />
+    <Content Include="Views\Route\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

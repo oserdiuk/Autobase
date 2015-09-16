@@ -48,21 +48,25 @@ namespace Autobase.Helpers
         {
             RouteDbManager dbManager = new RouteDbManager();
             List<Car> cars = dbManager.GetCarsFreeForRoute();
+            cars.Add(dbManager.GetCar(currentCarId));
 
             SelectListItem item;
             foreach (var car in cars)
             {
-                item = new SelectListItem()
+                if (car != null)
                 {
-                    Value = car.CarId.ToString(),
-                    Text = String.Format("{0} {1} {2}, кол-во мест: {3}, мощность: {4}", car.Type, car.Model, car.CarNumber, car.SeatingAccommodation, car.Capacity)
-                };
+                    item = new SelectListItem()
+                    {
+                        Value = car.CarId.ToString(),
+                        Text = String.Format("{0} {1} {2}, кол-во мест: {3}, мощность: {4}", car.Type, car.Model, car.CarNumber, car.SeatingAccommodation, car.Capacity)
+                    };
 
-                if (car.CarId == (currentCarId))
-                {
-                    item.Selected = true;
+                    if (car.CarId == (currentCarId))
+                    {
+                        item.Selected = true;
+                    }
+                    list.Add(item);
                 }
-                list.Add(item);
             }
         }
 

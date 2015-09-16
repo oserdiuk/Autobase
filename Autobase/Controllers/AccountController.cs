@@ -188,6 +188,15 @@ namespace Autobase.Controllers
             return View(model);
         }
 
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            WebSecurity.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
         //
         //// GET: /Account/ConfirmEmail
         //[AllowAnonymous]
@@ -402,14 +411,7 @@ namespace Autobase.Controllers
         //}
 
         //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
+     
 
         //
         // GET: /Account/ExternalLoginFailure

@@ -119,17 +119,15 @@ namespace DAL
 
         public void UpdateRouteStatuses()
         {
-            var statuses = this.RouteStatusRepository.GetAll();
-            var inProgressId = statuses
-                    .Where(s => s.StatusName.ToLower().Contains("выполняется")).FirstOrDefault().RouteStatusId;
-            var doneId = statuses
-                        .Where(s => s.StatusName.ToLower().Contains("выполнен")).FirstOrDefault().RouteStatusId;
+            var inProgressId = GetInProgressStatusId();
+            var doneId = GetDoneStatusId();
+            var waitingForConfirmId = GetWaitingForConfirmStatusId();
 
             var routes = this.RouteRepository.GetAll();
-            routes.Where(route => route.DepartureDate < DateTime.Now).ToList<Route>()
+            routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
                 .ForEach(route => route.RouteStatusId = inProgressId);
 
-            routes.Where(route => route.ArrivalDate < DateTime.Now).ToList<Route>()
+            routes.Where(route => route.ArrivalDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
                 .ForEach(route =>
                 {
                     route.RouteStatusId = doneId;
@@ -139,7 +137,7 @@ namespace DAL
 
             this.CarRepository.GetAll().ToList<Car>().ForEach(car =>
             {
-                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now).FirstOrDefault() != null)
+                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).FirstOrDefault() != null)
                 {
                     if (car.Routes.Where(route => route.ArrivalDate < DateTime.Now).FirstOrDefault() != null)
                     {
@@ -157,6 +155,26 @@ namespace DAL
         private void FreeCar(int carId)
         {
             this.CarRepository.Get(carId).IsBusy = false;
+        }
+
+        public int GetWaitingForConfirmStatusId()
+        {
+            return this.RouteStatusRepository.GetAll().Where(s => s.StatusName.ToLower().Contains("подтвер")).FirstOrDefault().RouteStatusId;
+        }
+
+        public int GetWaitingForDepartStatusId()
+        {
+            return this.RouteStatusRepository.GetAll().Where(s => s.StatusName.ToLower().Contains("ожид")).FirstOrDefault().RouteStatusId;
+        }
+
+        public int GetDoneStatusId()
+        {
+            return this.RouteStatusRepository.GetAll().Where(s => s.StatusName.ToLower().Contains("выполнен")).FirstOrDefault().RouteStatusId;
+        }
+
+        public int GetInProgressStatusId()
+        {
+            return this.RouteStatusRepository.GetAll().Where(s => s.StatusName.ToLower().Contains("выполняе")).FirstOrDefault().RouteStatusId;
         }
 
         public void Save()
