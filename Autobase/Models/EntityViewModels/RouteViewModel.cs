@@ -21,14 +21,15 @@ namespace Autobase.Models.EntityViewModels
 
         public string Direction { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public DateTime DepartureDate { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
         public DateTime ArrivalDate { get; set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime CreatingDate { get; set; }
+        
         public string CarNumber { get; set; }
 
         public string CarName { get; set; }
@@ -79,7 +80,6 @@ namespace Autobase.Models.EntityViewModels
 
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
-        [GreaterThan("DepartureTime", ErrorMessage = "Время приезда не может быть меньше чем время выезда.")]
         public DateTime ArrivalTime { get; set; }
 
         public string CarId { get; set; }
@@ -88,7 +88,7 @@ namespace Autobase.Models.EntityViewModels
 
         public string DriverId { get; set; }
 
-        public List<SelectListItem> RouteStatuses { get; set; }
+       // public List<SelectListItem> RouteStatuses { get; set; }
 
         public List<SelectListItem> Drivers { get; set; }
 
@@ -96,14 +96,13 @@ namespace Autobase.Models.EntityViewModels
 
         public CreateRouteViewModel()
         {
-            this.RouteStatuses = new List<SelectListItem>();
+           // this.RouteStatuses = new List<SelectListItem>();
             this.Drivers = new List<SelectListItem>();
             this.Cars = new List<SelectListItem>();
-            this.RouteStatuses.AddRouteStatuses();
+           // this.RouteStatuses.AddRouteStatuses();
             this.Cars.AddFreeCars();
             this.Drivers.AddDrivers();
         }
-
     }
 
     public class EditRouteViewModel
@@ -140,7 +139,7 @@ namespace Autobase.Models.EntityViewModels
 
         public string DriverId { get; set; }
 
-        public List<SelectListItem> RouteStatuses { get; set; }
+        //public List<SelectListItem> RouteStatuses { get; set; }
 
         public List<SelectListItem> Drivers { get; set; }
 
@@ -148,9 +147,9 @@ namespace Autobase.Models.EntityViewModels
 
         public EditRouteViewModel()
         {
-            this.RouteStatuses = new List<SelectListItem>();
+            //this.RouteStatuses = new List<SelectListItem>();
             this.Cars = new List<SelectListItem>();
-            this.RouteStatuses.AddRouteStatuses(Convert.ToInt32(this.RouteStatusId));
+            //this.RouteStatuses.AddRouteStatuses(Convert.ToInt32(this.RouteStatusId));
             this.Cars.AddFreeCars(Convert.ToInt32(this.CarId));
             this.Drivers = new List<SelectListItem>();
             this.Drivers.AddDrivers();

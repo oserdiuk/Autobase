@@ -1,45 +1,88 @@
 ﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexRouteViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Рейсы";
+    string actionLinkTextCreateRoute = Roles.IsUserInRole("Driver") ? "Заказать рейс" : "Создать рейс";
 }
 
-<h2>Index</h2>
+<h2>Рейсы</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(actionLinkTextCreateRoute, "Create")
 </p>
 <table class="table">
     <tr>
-        <th></th>
+        <th>
+            Номер рейса
+        </th>
+        <th>
+            Дата создания рейса
+        </th>
+        <th>
+            Направление
+        </th>
+        <th>
+            Название машины
+        </th>
+        <th>
+            Номер машины
+        </th>
+        <th>
+            Дата и время отправления
+        </th>
+        <th>
+            Дата и время прибытия
+        </th>
+        <th>
+            Статус рейса
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @item.Direction
-        </td>
-        <td>
-            @item.CarName
-        </td>
-        <td>
-            @item.CarNumber
-        </td>
-        <td>
-            @item.DepartureDate
-        </td>
-        <td>
-            @item.RouteStatusName
-        </td><td>
-    @item.ArrivalDate
-</td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.RouteId
+            </td>
+            <td>
+                @item.CreatingDate.Date
+            </td>
+            <td>
+                @item.Direction
+            </td>
+            <td>
+                @item.CarName
+            </td>
+            <td>
+                @item.CarNumber
+            </td>
+            <td>
+                @item.DepartureDate
+            </td>
+            <td>
+                @item.ArrivalDate
+            </td>
+            <td>
+                @item.RouteStatusName
+            </td>
 
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.RouteId  }) |
-            @Html.ActionLink("Details", "Details", new { id = item.RouteId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.RouteId })
-        </td>
-    </tr>
-}
+            <td>
+                @if (Roles.IsUserInRole("Manager") || Roles.IsUserInRole("Admin"))
+                {
+                    if (item.RouteStatusName.Contains("подтвер"))
+                    {
+                        @Html.ActionLink("Подтвердить", "ConfirmRoute", new { id = item.RouteId }, new { @class = "attention-text" }) <span> | </span>
+                    }
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.RouteId }) <span> | </span>
+                }
+                else
+                {
+                    @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
+                }
+                @Html.ActionLink("Подробнее", "Details", new { id = item.RouteId })
+            </td>
+        </tr>
+    }
 
 </table>

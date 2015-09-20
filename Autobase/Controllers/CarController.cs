@@ -66,7 +66,8 @@ namespace Autobase.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dbManager.EditCar(AutoMapper.Mapper.Map<EditCarViewModel, Car>(viewModel));
+                    var carDAL = dbManager.GetCar(id);
+                    dbManager.EditCar(AutoMapper.Mapper.Map<EditCarViewModel, Car>(viewModel, carDAL));
                     return RedirectToAction("Index");
                 }
             }
@@ -80,7 +81,11 @@ namespace Autobase.Controllers
         // GET: Car/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (dbManager.CheckCarForActive(id))
+            {
+                return View();
+            }
+            return View(IndexCarViewModel.GetViewModel(repository, id));
         }
 
         // POST: Car/Delete/5
@@ -89,8 +94,7 @@ namespace Autobase.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
+                dbManager.DeleteCar(id);
                 return RedirectToAction("Index");
             }
             catch

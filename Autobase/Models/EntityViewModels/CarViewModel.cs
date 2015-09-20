@@ -72,6 +72,7 @@ namespace Autobase.Models.EntityViewModels
         public int SeatingAccommodation { get; set; }
         public int Capacity { get; set; }
         public string Type { get; set; }
+        public bool IsIntegral { get; set; }
         public List<SelectListItem> AllCarTypes { get; set; }
 
         public EditCarViewModel()

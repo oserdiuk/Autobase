@@ -1,4 +1,5 @@
-﻿using Autobase.Models.EntityViewModels;
+﻿using Autobase.Helpers;
+using Autobase.Models.EntityViewModels;
 using AutoMapper;
 using BBL.DbManager;
 using DAL.Entities;
@@ -58,6 +59,11 @@ namespace Autobase.Controllers
         // GET: Route/Edit/5
         public ActionResult Edit(int id)
         {
+            if (dbManager.CheckRouteForActive(id))
+            {
+                return RedirectToAction("Index");
+            } 
+
             var route = dbManager.GetRoute(id);
             var view = AutoMapper.Mapper.Map<Route, EditRouteViewModel>(route);
             return View(view);
@@ -71,7 +77,8 @@ namespace Autobase.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dbManager.EditRoute(AutoMapper.Mapper.Map<EditRouteViewModel, Route>(model));
+                    var routeDAL = dbManager.GetRoute(id);
+                    dbManager.EditRoute(AutoMapper.Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
                     return RedirectToAction("Index");
                 }
             }
@@ -105,6 +112,34 @@ namespace Autobase.Controllers
             {
                 return View();
             }
+        }
+
+        [RoleAuthorized(Roles = "Admin, Manager")]
+        public ActionResult ConfirmRoute(int id)
+        {
+            dbManager.ConfirmRoute(id);
+            return RedirectToAction("Index");
+        }
+
+        [RoleAuthorized(Roles = "Driver")]
+        public ActionResult ChangeRouteStatus(int id)
+        {
+            Route route = dbManager.GetRoute(id);
+            var viewModel = Mapper.Map<Route, ChangeStatusViewModel>(route);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [RoleAuthorized(Roles = "Driver")]
+        public ActionResult ChangeRouteStatus(ChangeStatusViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var route = Mapper.Map<ChangeStatusViewModel, Route>(viewModel);
+                var car = Mapper.Map<ChangeStatusViewModel, Car>(viewModel);
+                dbManager.ChangeRouteStatus(route, car);
+            }
+            return View(viewModel);
         }
     }
 }

@@ -117,5 +117,38 @@ namespace BBL.DbManager
             int doneStatuseId = this.repository.GetInProgressStatusId();
             return this.repository.RouteRepository.Get(id).RouteStatusId == doneStatuseId;
         }
+
+        public void ConfirmRoute(int id)
+        {
+            this.repository.RouteRepository.Get(id).RouteStatusId = this.repository.GetWaitingForDepartStatusId();
+            this.repository.Save();
+        }
+
+        public bool CheckCarForActive(int id)
+        {
+            Car car = this.GetCar(id);
+            foreach (var route in car.Routes)
+            {
+                if (CheckRouteForActive(route.RouteId))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ChangeRouteStatus(Route route, Car car)
+        {
+            this.repository.RouteRepository.Update(route);
+            route.Car.IsIntegral = car.IsIntegral;
+            this.repository.CarRepository.Update(route.Car);
+            this.repository.Save();
+        }
+
+        public void DeleteCar(int id)
+        {
+            this.repository.CarRepository.Delete(id);
+            this.repository.Save();
+        }
     }
 }

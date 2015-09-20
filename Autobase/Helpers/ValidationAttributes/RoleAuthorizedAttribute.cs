@@ -20,7 +20,7 @@ namespace Autobase.Helpers
                 filterContext.Result = new RedirectToRouteResult(new
                 RouteValueDictionary(new
                 {
-                    controller = "Error",
+                    controller = "Account",
                     action = "AccessDenied",
                     area = ""
                 }));

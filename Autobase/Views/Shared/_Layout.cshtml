@@ -20,16 +20,19 @@
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager"))
-                    {
-                        <li>@Html.ActionLink("Register new user", "Register", "Account")</li>
-                    }
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Routes", "Index", "Route")</li>
-                    <li>@Html.ActionLink("Cars", "Index", "Car")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+                @if (WebSecurity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-nav">
+                        @if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager"))
+                        {
+                            <li>@Html.ActionLink("Register new user", "Register", "Account")</li>
+                        }
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Routes", "Index", "Route")</li>
+                        <li>@Html.ActionLink("Cars", "Index", "Car")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

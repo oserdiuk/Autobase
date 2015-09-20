@@ -197,6 +197,11 @@ namespace Autobase.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         //
         //// GET: /Account/ConfirmEmail
         //[AllowAnonymous]

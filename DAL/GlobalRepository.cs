@@ -21,6 +21,10 @@ namespace DAL
         private DriverRepository driverRepository;
         private DrivingLicenseTypeRepository drivingLicenseTypeRepository;
 
+        public GlobalRepository()
+        {
+            UpdateCarStatuses();
+        }
         public DrivingLicenseTypeRepository DrivingLicenseTypeRepository
         {
             get
@@ -117,38 +121,39 @@ namespace DAL
             }
         }
 
-        public void UpdateRouteStatuses()
+        public void UpdateCarStatuses()
         {
             var inProgressId = GetInProgressStatusId();
             var doneId = GetDoneStatusId();
             var waitingForConfirmId = GetWaitingForConfirmStatusId();
 
-            var routes = this.RouteRepository.GetAll();
-            routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
-                .ForEach(route => route.RouteStatusId = inProgressId);
+            //var routes = this.RouteRepository.GetAll();
+            //routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
+            //    .ForEach(route => route.RouteStatusId = inProgressId);
 
-            routes.Where(route => route.ArrivalDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
-                .ForEach(route =>
-                {
-                    route.RouteStatusId = doneId;
-                    FreeCar(route.CarId);
-                }
-            );
+            //routes.Where(route => route.ArrivalDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
+            //    .ForEach(route =>
+            //    {
+            //        route.RouteStatusId = doneId;
+            //        FreeCar(route.CarId);
+            //    }
+            //);
 
-            this.CarRepository.GetAll().ToList<Car>().ForEach(car =>
+            var r = this.CarRepository.GetAll().ToList<Car>();
+            foreach (var car in r)
             {
-                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).FirstOrDefault() != null)
+                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now).FirstOrDefault() != null)
                 {
-                    if (car.Routes.Where(route => route.ArrivalDate < DateTime.Now).FirstOrDefault() != null)
-                    {
-                        car.IsBusy = false;
-                    }
-                    else
+                    if (car.Routes.Where(route => route.ArrivalDate > DateTime.Now).Count() > 0)
                     {
                         car.IsBusy = true;
                     }
+                    else
+                    {
+                        car.IsBusy = false;
+                    }
                 }
-            });
+            }
             dbContext.SaveChanges();
         }
 
@@ -179,7 +184,7 @@ namespace DAL
 
         public void Save()
         {
-            UpdateRouteStatuses();
+            UpdateCarStatuses();
         }
 
         private bool disposed = false;
