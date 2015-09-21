@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexRouteViewModel>
+@using Autobase.Helpers;
 
-@{
+@{    
     ViewBag.Title = "Рейсы";
     string actionLinkTextCreateRoute = Roles.IsUserInRole("Driver") ? "Заказать рейс" : "Создать рейс";
 }
@@ -10,6 +11,25 @@
 <p>
     @Html.ActionLink(actionLinkTextCreateRoute, "Create")
 </p>
+
+<div class="dropdown right">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="glyphicon glyphicon-sort" style="margin-right: 7px"></i>Сортировать по:<span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+
+        <li>@Ajax.ActionLink("По номеру рейса (по возрастанию)", "Sort", "Route", new { sortId = SortRoute.RouteIdAsc }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li>@Ajax.ActionLink("По номеру рейса (по убыванию)", "Sort", "Route", new { sortId = SortRoute.RouteIdDesc }, new AjaxOptions { HttpMethod = "Post" })</li>
+
+        <li class="divider"></li>
+
+        <li> @Ajax.ActionLink("По дате создания (по возрастанию)", "Sort", "Route", new { sortId = SortRoute.CreatingDateAsc }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По дате создания (по убыванию)", "Sort", "Route", new { sortId = SortRoute.CreatingDateDesc }, new AjaxOptions { HttpMethod = "Post" })</li>
+
+        <li class="divider"></li>
+
+        <li> @Ajax.ActionLink("По статусу", "Sort", "Route", new { sortId = SortRoute.Status }, new AjaxOptions { HttpMethod = "Post" })</li>
+
+    </ul>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -32,6 +52,9 @@
         </th>
         <th>
             Дата и время прибытия
+        </th>
+        <th>
+            Имя водителя
         </th>
         <th>
             Статус рейса
@@ -63,6 +86,9 @@
                 @item.ArrivalDate
             </td>
             <td>
+                @item.DriverName
+            </td>
+            <td>
                 @item.RouteStatusName
             </td>
 
@@ -78,6 +104,7 @@
                 }
                 else
                 {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
                     @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
                 }
                 @Html.ActionLink("Подробнее", "Details", new { id = item.RouteId })

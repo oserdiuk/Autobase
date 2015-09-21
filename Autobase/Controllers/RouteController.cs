@@ -62,7 +62,7 @@ namespace Autobase.Controllers
             if (dbManager.CheckRouteForActive(id))
             {
                 return RedirectToAction("Index");
-            } 
+            }
 
             var route = dbManager.GetRoute(id);
             var view = AutoMapper.Mapper.Map<Route, EditRouteViewModel>(route);
@@ -135,11 +135,20 @@ namespace Autobase.Controllers
         {
             if (ModelState.IsValid)
             {
-                var route = Mapper.Map<ChangeStatusViewModel, Route>(viewModel);
-                var car = Mapper.Map<ChangeStatusViewModel, Car>(viewModel);
+                Route route = dbManager.GetRoute(viewModel.RouteId);
+                Car car = dbManager.GetCar(viewModel.CarId);
+                Mapper.Map<ChangeStatusViewModel, Route>(viewModel, route);
+                Mapper.Map<ChangeStatusViewModel, Car>(viewModel, car);
                 dbManager.ChangeRouteStatus(route, car);
+                return RedirectToAction("Index");
             }
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Sort(IndexRouteViewModel viewModel, int sortId)
+        {
+
         }
     }
 }

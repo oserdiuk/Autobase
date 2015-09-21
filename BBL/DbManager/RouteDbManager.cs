@@ -140,7 +140,6 @@ namespace BBL.DbManager
         public void ChangeRouteStatus(Route route, Car car)
         {
             this.repository.RouteRepository.Update(route);
-            route.Car.IsIntegral = car.IsIntegral;
             this.repository.CarRepository.Update(route.Car);
             this.repository.Save();
         }

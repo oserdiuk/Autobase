@@ -193,16 +193,19 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RouteController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\SortRouteEnum.cs" />
     <Compile Include="Helpers\ValidationAttributes\MinDateValidationAttribute.cs" />
     <Compile Include="Helpers\ValidationAttributes\RoleAuthorizedAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EntityViewModels\CarViewModel.cs" />
     <Compile Include="Models\EntityViewModels\ChangeStatusViewModel.cs" />
     <Compile Include="Models\EntityViewModels\RouteViewModel.cs" />
+    <Compile Include="Models\EntityViewModels\UsersViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -216,6 +219,11 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\034.jpg" />
+    <Content Include="Content\Images\4916-blurred-city-street-1920x1080-world-wallpaper.jpg" />
+    <Content Include="Content\Images\homepage.jpg" />
+    <Content Include="Content\Images\night.jpeg" />
+    <Content Include="Content\Images\road.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -281,6 +289,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

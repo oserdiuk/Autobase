@@ -26,3 +26,22 @@ textarea {
 .attention-text {
     color: red;
 }
+
+.background {
+    background-image: url(../../Content/Images/4916-blurred-city-street-1920x1080-world-wallpaper.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.content {
+    border: 1px solid black;
+    background-color:rgba(205,234,229,0.7);
+}
+
+.page-content {
+    margin: 5%;
+    font-weight: bold;
+    color: #000000;
+}

@@ -142,16 +142,13 @@ namespace DAL
             var r = this.CarRepository.GetAll().ToList<Car>();
             foreach (var car in r)
             {
-                if (car.Routes.Where(route => route.DepartureDate < DateTime.Now).FirstOrDefault() != null)
+                if (car.Routes.Where(route => route.RouteStatusId == inProgressId).Count() > 0)
                 {
-                    if (car.Routes.Where(route => route.ArrivalDate > DateTime.Now).Count() > 0)
-                    {
-                        car.IsBusy = true;
-                    }
-                    else
-                    {
-                        car.IsBusy = false;
-                    }
+                    car.IsBusy = true;
+                }
+                else
+                {
+                    car.IsBusy = false;
                 }
             }
             dbContext.SaveChanges();
