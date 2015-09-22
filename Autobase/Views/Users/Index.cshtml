@@ -2,9 +2,8 @@
     ViewBag.Title = "Index";
 }
 @section scripts{
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
-
+}
 
 @if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager"))
 {
@@ -18,5 +17,5 @@
 
 <br />
 <div id="divResponse">
-    @*@Html.Partial("~/Views/Users/GetDrivers.cshtml")*@
+    
 </div>

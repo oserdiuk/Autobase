@@ -1,13 +1,11 @@
 ﻿@model Autobase.Models.EntityViewModels.IndexRouteViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Подробности";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>IndexRouteViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -69,6 +67,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.RouteId }) |
+    @Html.ActionLink("Назад", "Index")
 </p>

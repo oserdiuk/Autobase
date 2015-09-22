@@ -38,8 +38,6 @@ namespace DAL.Repositories
             var oldCar = dbContext.Cars.Find(item.CarId);
             oldCar = item;
             var r = dbContext.Cars.Find(item.CarId);
-            //TODO edit editing cars and routes.
-          //  dbContext.Entry(item).State = EntityState.Modified;
         }
 
         public void Delete(int id)

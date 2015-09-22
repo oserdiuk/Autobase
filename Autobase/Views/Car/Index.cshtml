@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexCarViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Автомобили";
 }
 
-<h2>Index</h2>
+<h2>Автомобили</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить новый автомобиль", "Create")
 </p>
 <table class="table">
     <tr>
@@ -65,7 +65,7 @@
                 @Html.ActionLink("Подробнее", "Details", new { id = item.CarId }) |
                 @if (item.IsBusy)
                 {
-                    <span title="Машина в пути, удаление невозможно.">Удалить</span>
+                    <span class="inactive-link" title="Машина в пути, удаление невозможно.">Удалить</span>
                 }
                 else
                 {

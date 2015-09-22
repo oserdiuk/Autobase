@@ -13,6 +13,9 @@ namespace Autobase.Models.EntityViewModels
         [DisplayName("Id рейса")]
         public int RouteId { get; set; }
 
+        [DisplayName("Направление")]
+        public string RouteDirection { get; set; }
+
         [DisplayName("Id машины")]
         public int CarId { get; set; }
 
@@ -22,6 +25,7 @@ namespace Autobase.Models.EntityViewModels
         [DisplayName("Модель машины")]
         public string CarModel { get; set; }
 
+        [DisplayName("Статус рейса")]
         public int RouteStatusId { get; set; }
 
         [DisplayName("Машина исправна")]
@@ -34,6 +38,5 @@ namespace Autobase.Models.EntityViewModels
             this.RouteStatuses = new List<SelectListItem>();
             this.RouteStatuses.AddRouteStatuses(this.RouteStatusId);
         }
-        //TODO insert route status, car props: isIntegral
     }
 }

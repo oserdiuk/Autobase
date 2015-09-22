@@ -3,9 +3,9 @@
 
 
 @section scripts{
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@Scripts.Render("~/Scripts/list.items-selected.js")
 }
-<script src="~/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
 
 @{
     ViewBag.Title = "Рейсы";
@@ -36,7 +36,6 @@
 
     </ul>
 </div>
-<div class="result">
-
+<div id="result">
     @Html.Partial("~/Views/Route/Sort.cshtml", Model)
 </div>
