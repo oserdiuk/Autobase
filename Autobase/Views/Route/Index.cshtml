@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexRouteViewModel>
 @using BBL;
 
-@{    
+
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
+<script src="~/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
+
+@{
     ViewBag.Title = "Рейсы";
     string actionLinkTextCreateRoute = Roles.IsUserInRole("Driver") ? "Заказать рейс" : "Создать рейс";
 }
@@ -16,100 +22,21 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="glyphicon glyphicon-sort" style="margin-right: 7px"></i>Сортировать по:<span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
 
-        <li>@Ajax.ActionLink("По номеру рейса (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdAsc) }, new AjaxOptions { HttpMethod = "Post" })</li>
-        <li>@Ajax.ActionLink("По номеру рейса (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdDesc) }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li>@Ajax.ActionLink("По номеру рейса (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdAsc) }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
+        <li>@Ajax.ActionLink("По номеру рейса (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdDesc) }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
 
         <li class="divider"></li>
 
-        <li> @Ajax.ActionLink("По дате создания (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateAsc) }, new AjaxOptions { HttpMethod = "Post" })</li>
-        <li> @Ajax.ActionLink("По дате создания (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateDesc) }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По дате создания (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateAsc) }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
+        <li> @Ajax.ActionLink("По дате создания (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateDesc) }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
 
         <li class="divider"></li>
 
-        <li> @Ajax.ActionLink("По статусу", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.Status) }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По статусу", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.Status) }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
 
     </ul>
 </div>
-<table class="table">
-    <tr>
-        <th>
-            Номер рейса
-        </th>
-        <th>
-            Дата создания рейса
-        </th>
-        <th>
-            Направление
-        </th>
-        <th>
-            Название машины
-        </th>
-        <th>
-            Номер машины
-        </th>
-        <th>
-            Дата и время отправления
-        </th>
-        <th>
-            Дата и время прибытия
-        </th>
-        <th>
-            Имя водителя
-        </th>
-        <th>
-            Статус рейса
-        </th>
-    </tr>
+<div class="result">
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.RouteId
-            </td>
-            <td>
-                @item.CreatingDate.Date
-            </td>
-            <td>
-                @item.Direction
-            </td>
-            <td>
-                @item.CarName
-            </td>
-            <td>
-                @item.CarNumber
-            </td>
-            <td>
-                @item.DepartureDate
-            </td>
-            <td>
-                @item.ArrivalDate
-            </td>
-            <td>
-                @item.DriverName
-            </td>
-            <td>
-                @item.RouteStatusName
-            </td>
-
-            <td>
-                @if (Roles.IsUserInRole("Manager") || Roles.IsUserInRole("Admin"))
-                {
-                    if (item.RouteStatusName.Contains("подтвер"))
-                    {
-                        @Html.ActionLink("Подтвердить", "ConfirmRoute", new { id = item.RouteId }, new { @class = "attention-text" }) <span> | </span>
-                    }
-                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
-                    @Html.ActionLink("Удалить", "Delete", new { id = item.RouteId }) <span> | </span>
-                }
-                else
-                {
-                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
-                    @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
-                }
-                @Html.ActionLink("Подробнее", "Details", new { id = item.RouteId })
-            </td>
-        </tr>
-    }
-
-</table>
+    @Html.Partial("~/Views/Route/Sort.cshtml", Model)
+</div>

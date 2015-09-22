@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexRouteViewModel>
+
+<table class="table">
+    <tr>
+        <th>
+            Номер рейса
+        </th>
+        <th>
+            Дата создания рейса
+        </th>
+        <th>
+            Направление
+        </th>
+        <th>
+            Название машины
+        </th>
+        <th>
+            Номер машины
+        </th>
+        <th>
+            Дата и время отправления
+        </th>
+        <th>
+            Дата и время прибытия
+        </th>
+        <th>
+            Имя водителя
+        </th>
+        <th>
+            Статус рейса
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.RouteId
+            </td>
+            <td>
+                @String.Format("{0}/{1}/{2}", item.CreatingDate.Month, item.CreatingDate.Day, item.CreatingDate.Year)
+            </td>
+            <td>
+                @item.Direction
+            </td>
+            <td>
+                @item.CarName
+            </td>
+            <td>
+                @item.CarNumber
+            </td>
+            <td>
+                @item.DepartureDate
+            </td>
+            <td>
+                @item.ArrivalDate
+            </td>
+            <td>
+                @item.DriverName
+            </td>
+            <td>
+                @item.RouteStatusName
+            </td>
+
+            <td>
+                @if (Roles.IsUserInRole("Manager") || Roles.IsUserInRole("Admin"))
+                {
+                    if (item.RouteStatusName.Contains("подтвер"))
+                    {
+                        @Html.ActionLink("Подтвердить", "ConfirmRoute", new { id = item.RouteId }, new { @class = "attention-text" }) <span> | </span>
+                    }
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.RouteId }) <span> | </span>
+                }
+                else
+                {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
+                    @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
+                }
+                @Html.ActionLink("Подробнее", "Details", new { id = item.RouteId })
+            </td>
+        </tr>
+    }
+
+</table>

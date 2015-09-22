@@ -144,9 +144,9 @@ namespace Autobase.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Sort(int sortId)
+        public PartialViewResult Sort(int sortId)
         {
-            return View("Index", IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes(sortId)));
+            return PartialView(IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes(sortId)));
         }
     }
 }

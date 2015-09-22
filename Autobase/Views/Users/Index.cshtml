@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+
+
+@if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager"))
+{
+    <li>@Html.ActionLink("Зарегистрировать нового пользователя", "Register", "Account")</li>
+}
+
+<ul class="nav nav-tabs">
+    <li> @Ajax.ActionLink("Водители", "GetDrivers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divResponse", InsertionMode = InsertionMode.Replace })</li>
+    <li> @Ajax.ActionLink("Менеджеры", "GetManagers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divResponse", InsertionMode = InsertionMode.Replace })</li>
+</ul>
+
+<br />
+<div id="divResponse">
+    @*@Html.Partial("~/Views/Users/GetDrivers.cshtml")*@
+</div>
