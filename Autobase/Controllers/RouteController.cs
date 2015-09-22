@@ -15,19 +15,18 @@ namespace Autobase.Controllers
     [Authorize]
     public class RouteController : Controller
     {
-        DAL.GlobalRepository repository = new DAL.GlobalRepository();
         RouteDbManager dbManager = new RouteDbManager();
 
         // GET: Route
         public ActionResult Index()
         {
-            return View(IndexRouteViewModel.GetViewListOfRoutes(repository));
+            return View(IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes()));
         }
 
         // GET: Route/Details/5
         public ActionResult Details(int id)
         {
-            return View(IndexRouteViewModel.GetViewModel(repository, id));
+            return View(IndexRouteViewModel.GetViewModel(dbManager.GetRoute(id)));
         }
 
         // GET: Route/Create
@@ -96,7 +95,7 @@ namespace Autobase.Controllers
             {
                 return View();
             }
-            return View(IndexRouteViewModel.GetViewModel(repository, id));
+            return View(IndexRouteViewModel.GetViewModel(dbManager.GetRoute(id)));
         }
 
         // POST: Route/Delete/5
@@ -145,10 +144,9 @@ namespace Autobase.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        public ActionResult Sort(IndexRouteViewModel viewModel, int sortId)
+        public ActionResult Sort(int sortId)
         {
-
+            return View("Index", IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes(sortId)));
         }
     }
 }

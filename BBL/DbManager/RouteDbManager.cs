@@ -1,10 +1,12 @@
 ﻿using DAL;
+using DAL.Abstract;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BBL.DbManager
 {
@@ -94,7 +96,7 @@ namespace BBL.DbManager
             return this.repository.CarRepository.Get(id);
         }
 
-        public List<Driver> GetDrivers()
+        public List<Driver> GetAllDrivers()
         {
             return this.repository.DriverRepository.GetAll().ToList<Driver>();
         }
@@ -148,6 +150,35 @@ namespace BBL.DbManager
         {
             this.repository.CarRepository.Delete(id);
             this.repository.Save();
+        }
+
+        public List<Route> GetRoutes(int sortTypeId = 0)
+        {
+            var routes = this.repository.RouteRepository.GetAll();
+            switch ((SortRoute)sortTypeId)
+            {
+                case SortRoute.CreatingDateAsc:
+                    return routes.OrderBy(route => route.CreatingDate).ToList<Route>();
+                case SortRoute.CreatingDateDesc:
+                    return routes.OrderBy(route => route.CreatingDate).Reverse().ToList<Route>();
+                case SortRoute.RouteIdAsc:
+                    return routes.OrderBy(route => route.RouteId).ToList<Route>();
+                case SortRoute.RouteIdDesc:
+                    return routes.OrderBy(route => route.RouteId).Reverse().ToList<Route>();
+                case SortRoute.Status:
+                    return routes.OrderBy(route => route.RouteStatusId).ToList<Route>();
+                default: return routes.ToList<Route>();
+            }
+        }
+
+        public List<Driver> GetDrivers()
+        {
+            return this.repository.DriverRepository.GetAll().Where(driver => !driver.User.IsDeleted).ToList<Driver>();
+        }
+
+        public List<Manager> GetManagers()
+        {
+            return this.repository.ManagerRepository.GetAll().Where(manager => !manager.User.IsDeleted).ToList<Manager>();
         }
     }
 }

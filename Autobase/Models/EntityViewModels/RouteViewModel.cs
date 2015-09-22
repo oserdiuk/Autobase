@@ -48,17 +48,17 @@ namespace Autobase.Models.EntityViewModels
         [DisplayName("Водитель")]
         public string DriverName { get; set; }
 
-        public static IndexRouteViewModel GetViewModel(GlobalRepository repository, int id)
+        public static IndexRouteViewModel GetViewModel(Route route)
         {
-            return Mapper.Map<Route, IndexRouteViewModel>(repository.RouteRepository.Get(id));
+            return Mapper.Map<Route, IndexRouteViewModel>(route);
         }
 
-        public static List<IndexRouteViewModel> GetViewListOfRoutes(GlobalRepository repository)
+        public static List<IndexRouteViewModel> GetViewListOfRoutes(List<Route> routes)
         {
             List<IndexRouteViewModel> result = new List<IndexRouteViewModel>();
             try
             {
-                result = Mapper.Map<IEnumerable<Route>, List<IndexRouteViewModel>>(repository.RouteRepository.GetAll());
+                result = Mapper.Map<IEnumerable<Route>, List<IndexRouteViewModel>>(routes);
 
             }
             catch (Exception ex)
@@ -79,13 +79,13 @@ namespace Autobase.Models.EntityViewModels
 
         [DisplayName("Дата отправления")]
         [DataType(DataType.Date)]
-      //  [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
+        //  [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DepartureDate { get; set; }
 
         [DisplayName("Дата прибытия")]
         [DataType(DataType.Date)]
-       // [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
+        // [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
         [GreaterThanOrEqualTo("DepartureDate", ErrorMessage = "Дата приезда не может быть меньше чем дата выезда.")]
         public DateTime ArrivalDate { get; set; }
@@ -109,7 +109,7 @@ namespace Autobase.Models.EntityViewModels
         [DisplayName("Водитель")]
         public string DriverId { get; set; }
 
-       // public List<SelectListItem> RouteStatuses { get; set; }
+        // public List<SelectListItem> RouteStatuses { get; set; }
 
         public List<SelectListItem> Drivers { get; set; }
 
@@ -117,10 +117,10 @@ namespace Autobase.Models.EntityViewModels
 
         public CreateRouteViewModel()
         {
-           // this.RouteStatuses = new List<SelectListItem>();
+            // this.RouteStatuses = new List<SelectListItem>();
             this.Drivers = new List<SelectListItem>();
             this.Cars = new List<SelectListItem>();
-           // this.RouteStatuses.AddRouteStatuses();
+            // this.RouteStatuses.AddRouteStatuses();
             this.Cars.AddFreeCars();
             this.Drivers.AddDrivers();
         }
@@ -137,13 +137,13 @@ namespace Autobase.Models.EntityViewModels
         [DisplayName("Дата создания")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:mm-dd-yyyy}", ApplyFormatInEditMode = true)]
-     //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
+        //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         public DateTime CreatingDate { get; set; }
 
         [DisplayName("Дата отправления")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-     //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
+        //   [RangeDate(ErrorMessage = "Дата должна быть больше чем сегодняшнее число.")]
         public DateTime DepartureDate { get; set; }
 
         [DisplayName("Дата прибытия")]

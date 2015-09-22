@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexRouteViewModel>
-@using Autobase.Helpers;
+@using BBL;
 
 @{    
     ViewBag.Title = "Рейсы";
@@ -16,17 +16,17 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="glyphicon glyphicon-sort" style="margin-right: 7px"></i>Сортировать по:<span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
 
-        <li>@Ajax.ActionLink("По номеру рейса (по возрастанию)", "Sort", "Route", new { sortId = SortRoute.RouteIdAsc }, new AjaxOptions { HttpMethod = "Post" })</li>
-        <li>@Ajax.ActionLink("По номеру рейса (по убыванию)", "Sort", "Route", new { sortId = SortRoute.RouteIdDesc }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li>@Ajax.ActionLink("По номеру рейса (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdAsc) }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li>@Ajax.ActionLink("По номеру рейса (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.RouteIdDesc) }, new AjaxOptions { HttpMethod = "Post" })</li>
 
         <li class="divider"></li>
 
-        <li> @Ajax.ActionLink("По дате создания (по возрастанию)", "Sort", "Route", new { sortId = SortRoute.CreatingDateAsc }, new AjaxOptions { HttpMethod = "Post" })</li>
-        <li> @Ajax.ActionLink("По дате создания (по убыванию)", "Sort", "Route", new { sortId = SortRoute.CreatingDateDesc }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По дате создания (по возрастанию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateAsc) }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По дате создания (по убыванию)", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.CreatingDateDesc) }, new AjaxOptions { HttpMethod = "Post" })</li>
 
         <li class="divider"></li>
 
-        <li> @Ajax.ActionLink("По статусу", "Sort", "Route", new { sortId = SortRoute.Status }, new AjaxOptions { HttpMethod = "Post" })</li>
+        <li> @Ajax.ActionLink("По статусу", "Sort", "Route", new { sortId = Convert.ToInt32(SortRoute.Status) }, new AjaxOptions { HttpMethod = "Post" })</li>
 
     </ul>
 </div>

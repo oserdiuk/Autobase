@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autobase.Models.EntityViewModels;
+using BBL.DbManager;
+using DAL.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +11,24 @@ namespace Autobase.Controllers
 {
     public class UsersController : Controller
     {
+        RouteDbManager dbManager = new RouteDbManager();
+        
         // GET: Users
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public PartialViewResult GetDrivers()
+        {
+            return PartialView(DriverViewModel.GetViewListOfUsers(dbManager.GetDrivers().ToList<IUser>()));
+        }
+
+        [HttpPost]
+        public PartialViewResult GetManagers()
+        {
+            return PartialView(UserViewModel.GetViewListOfUsers(dbManager.GetManagers().ToList<IUser>()));   
         }
 
         // GET: Users/Details/5

@@ -198,14 +198,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="Helpers\SortRouteEnum.cs" />
     <Compile Include="Helpers\ValidationAttributes\MinDateValidationAttribute.cs" />
     <Compile Include="Helpers\ValidationAttributes\RoleAuthorizedAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EntityViewModels\CarViewModel.cs" />
     <Compile Include="Models\EntityViewModels\ChangeStatusViewModel.cs" />
     <Compile Include="Models\EntityViewModels\RouteViewModel.cs" />
-    <Compile Include="Models\EntityViewModels\UsersViewModel.cs" />
+    <Compile Include="Models\EntityViewModels\DriverViewModel.cs" />
+    <Compile Include="Models\EntityViewModels\UserViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -286,10 +286,12 @@
     <Content Include="Views\Car\Delete.cshtml" />
     <Content Include="Views\Route\ChangeRouteStatus.cshtml" />
     <Content Include="Views\Account\AccessDenied.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\GetManagers.cshtml" />
+    <Content Include="Views\Users\GetDrivers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

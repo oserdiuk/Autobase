@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Autobase.Helpers
+namespace BBL
 {
     public enum SortRoute
     {
+        NoSort,
         RouteIdAsc,
         RouteIdDesc,
         CreatingDateAsc,
