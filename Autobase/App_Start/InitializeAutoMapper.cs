@@ -59,6 +59,7 @@ namespace Autobase.App_Start
                 .ForMember(driver => driver.SecondName, a => a.MapFrom(src => src.User.SecondName))
                 .ForMember(driver => driver.DrivingLicenses, a => a.MapFrom(src => src.DrivingLicenses.Select(l => l.DrivingLicenseType.Category).ToList<string>()))
                 .ForMember(driver => driver.Phone, a => a.MapFrom(src => src.User.Phone));
+
             Mapper.CreateMap<Manager, UserViewModel>()
                 .ForMember(manager => manager.Address, a => a.MapFrom(src => src.User.Address))
                 .ForMember(manager => manager.BirthDate, a => a.MapFrom(src => src.User.BirthDate))
@@ -73,11 +74,22 @@ namespace Autobase.App_Start
             #region registerViewModel
 
             Mapper.CreateMap<User, RegisterViewModel>();
-            Mapper.CreateMap<Manager, RegisterViewModel>();
-            Mapper.CreateMap<Driver, RegisterViewModel>();
+            Mapper.CreateMap<Manager, RegisterViewModel>().IncludeBase<Manager, UserViewModel>();
+            Mapper.CreateMap<Driver, RegisterViewModel>()
+                .ForMember(driver => driver.Address, a => a.MapFrom(src => src.User.Address))
+                .ForMember(driver => driver.BirthDate, a => a.MapFrom(src => src.User.BirthDate))
+                .ForMember(driver => driver.City, a => a.MapFrom(src => src.User.City))
+                .ForMember(driver => driver.Email, a => a.MapFrom(src => src.User.Email))
+                .ForMember(driver => driver.EmploymentDate, a => a.MapFrom(src => src.User.EmploymentDate))
+                .ForMember(driver => driver.FirstName, a => a.MapFrom(src => src.User.FirstName))
+                .ForMember(driver => driver.IsDeleted, a => a.MapFrom(src => src.User.IsDeleted))
+                .ForMember(driver => driver.SecondName, a => a.MapFrom(src => src.User.SecondName))
+                .ForMember(driver => driver.Phone, a => a.MapFrom(src => src.User.Phone));
 
             #endregion
+
             Mapper.CreateMap<Car, IndexCarViewModel>();
+            Mapper.Configuration.Seal();
         }
 
         private static void CreateMapperToModel()
@@ -108,6 +120,30 @@ namespace Autobase.App_Start
                .ForMember(ex => ex.Message, a => a.MapFrom(src => src.Message))
                .ForMember(ex => ex.Source, a => a.MapFrom(src => src.Source))
                .ForMember(ex => ex.StackTrace, a => a.MapFrom(src => src.StackTrace));
+
+            #region register destination mapping
+
+            //Mapper.CreateMap<RegisterViewModel, User>()
+            //    .ForMember(user => user.Address, a => a.MapFrom(src => src.Address))
+            //    .ForMember(user => user.FirstName, a => a.MapFrom(src => src.FirstName))
+            //    .ForMember(user => user.SecondName, a => a.MapFrom(src => src.SecondName));
+
+
+            //Mapper.CreateMap<RegisterViewModel, Manager>().
+            //    ForMember(manager => manager.User, a => a.MapFrom(src => Mapper.Map<RegisterViewModel, User>(src)));
+
+            //Mapper.CreateMap<RegisterViewModel, Driver>()
+            //    .ForMember(driver => driver.Address, a => a.MapFrom(src => src.User.Address))
+            //    .ForMember(driver => driver.BirthDate, a => a.MapFrom(src => src.User.BirthDate))
+            //    .ForMember(driver => driver.City, a => a.MapFrom(src => src.User.City))
+            //    .ForMember(driver => driver.Email, a => a.MapFrom(src => src.User.Email))
+            //    .ForMember(driver => driver.EmploymentDate, a => a.MapFrom(src => src.User.EmploymentDate))
+            //    .ForMember(driver => driver.FirstName, a => a.MapFrom(src => src.User.FirstName))
+            //    .ForMember(driver => driver.IsDeleted, a => a.MapFrom(src => src.User.IsDeleted))
+            //    .ForMember(driver => driver.SecondName, a => a.MapFrom(src => src.User.SecondName))
+            //    .ForMember(driver => driver.Phone, a => a.MapFrom(src => src.User.Phone));
+
+            #endregion
         }
     }
 }

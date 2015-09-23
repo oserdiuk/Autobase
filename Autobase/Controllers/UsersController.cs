@@ -50,10 +50,11 @@ namespace Autobase.Controllers
         {
             var m = dbManager.GetUser(id, role);
             var model = RoleMapperManager.Map<RegisterViewModel>(m);
-            //if (m.UserInRole is Driver)
-            //{
-            //    model.AllDrivingLicenses.AddDrivingLicenses();
-            //}
+            if (m is Driver)
+            {
+                model.AllDrivingLicenses.AddDrivingLicenses(m as Driver);
+                model.SelectedDrivingLicenses = model.AllDrivingLicenses.Where(x => x.Selected).Select(x => x.Value).ToList();
+            }
             return View(model);
         }
 
@@ -63,8 +64,12 @@ namespace Autobase.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
+                if (ModelState.IsValid)
+                {
+                    var m = dbManager.GetUser(model.UserId, RoleEnum.Driver);
+                    //RoleMapperManager.Map<RegisterViewModel, User>(model, m.User);
+                    this.dbManager.UpdateUser(m);
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -74,9 +79,14 @@ namespace Autobase.Controllers
         }
 
         // GET: Users/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteDriver(int id)
         {
-            return View();
+            return View(MapperManager.Map<Driver, DriverViewModel>(dbManager.GetDriver(id)));        
+        }
+
+        public ActionResult DeleteManager(int id)
+        {
+            return View(MapperManager.Map<Manager, UserViewModel>(dbManager.GetManager(id)));
         }
 
         // POST: Users/Delete/5

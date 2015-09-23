@@ -16,5 +16,12 @@ namespace BBL
             if (source is Manager) return Mapper.Map<Manager, I>(source as Manager);
             return Mapper.Map<User, I>(source as User);
         }
+
+        public static void Map<TSource, IUser>(TSource source, IUser destination)
+        {
+            if (destination is Driver) Mapper.Map<TSource, Driver>(source, destination as Driver);
+            if (destination is Manager) Mapper.Map<TSource, Manager>(source, destination as Manager);
+            Mapper.Map<TSource, IUser>(source, destination);
+        }
     }
 }

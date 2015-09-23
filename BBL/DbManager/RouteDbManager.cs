@@ -139,6 +139,19 @@ namespace BBL.DbManager
             this.repository.Save();
         }
 
+        public void UpdateUser(IUser user)
+        {
+            if (user is Driver)
+            {
+                this.repository.DriverRepository.Update(user as Driver);
+            }
+            else if (user is Manager)
+            {
+                this.repository.ManagerRepository.Update(user as Manager);
+            }
+            this.repository.Save();
+        }
+
         public void DeleteCar(int id)
         {
             this.repository.CarRepository.Delete(id);

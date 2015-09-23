@@ -94,6 +94,11 @@ namespace Autobase.Helpers
 
         public static void AddDrivingLicenses(this List<SelectListItem> list, Driver driver = null)
         {
+            if (list.Count > 0)
+            {
+                list.Clear();
+            }
+
             RouteDbManager dbManager = new RouteDbManager();
             List<DrivingLicenseType> licenses = dbManager.GetDrivingLicenseTypes();
 
