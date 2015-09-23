@@ -12,7 +12,6 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
-    [LogException]
     public class UsersController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();

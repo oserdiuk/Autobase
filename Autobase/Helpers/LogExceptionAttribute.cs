@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Autobase.Helpers
 {
@@ -14,11 +15,6 @@ namespace Autobase.Helpers
         {
             RouteDbManager dbManager = new RouteDbManager();
             dbManager.AddException(exceptionContext.Exception);
-            if (!exceptionContext.ExceptionHandled)
-            {
-                exceptionContext.ExceptionHandled = true;
-            }
         }
-
     }
 }

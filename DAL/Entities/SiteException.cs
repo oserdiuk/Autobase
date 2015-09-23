@@ -10,8 +10,6 @@ namespace DAL.Entities
     {
         public int SiteExceptionId { get; set; }
 
-        public string HelpLink { get; set; }
-
         public string Message { get; set; }
 
         public string Source { get; set; }

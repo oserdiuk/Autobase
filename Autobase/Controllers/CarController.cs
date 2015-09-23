@@ -12,7 +12,6 @@ using System.Web.Mvc;
 namespace Autobase.Controllers
 {
     [RoleAuthorized(Roles = "Admin, Manager")]
-    [LogException]
     public class CarController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();

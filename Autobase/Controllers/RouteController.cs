@@ -14,7 +14,6 @@ using System.Web.Security;
 namespace Autobase.Controllers
 {
     [Authorize]
-    [LogException]
     public class RouteController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();

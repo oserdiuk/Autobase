@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
-    [LogException]
     public class HomeController : Controller
     {
         //private IMotorDepotRepository repository;
@@ -19,7 +18,6 @@ namespace Autobase.Controllers
 
         public ActionResult Index()
         {
-           // int i = this.repository.GetUserById(5);
             return View();
         }
 

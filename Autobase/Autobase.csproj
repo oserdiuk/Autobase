@@ -190,6 +190,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RouteController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -228,8 +229,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <None Include="Resources\accessDeniedPic.bmp" />
-    <None Include="Resources\19397645-Smiley-with-stop-sign-vector-illustration-Stock-Vector.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -288,15 +287,17 @@
     <Content Include="Views\Route\Delete.cshtml" />
     <Content Include="Views\Car\Delete.cshtml" />
     <Content Include="Views\Route\ChangeRouteStatus.cshtml" />
-    <Content Include="Views\Account\AccessDenied.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\GetManagers.cshtml" />
     <Content Include="Views\Users\GetDrivers.cshtml" />
     <Content Include="Views\Route\Sort.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
