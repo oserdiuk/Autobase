@@ -1,21 +1,25 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model IEnumerable<Autobase.Models.EntityViewModels.DriverViewModel>
+
+@{
+    ViewBag.Title = "Сотрудники";
 }
+
 @section scripts{
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/tabs.items-selected.js")
 }
 
 @if (Roles.IsUserInRole("Admin") || Roles.IsUserInRole("Manager"))
 {
-    <li>@Html.ActionLink("Зарегистрировать нового пользователя", "Register", "Account")</li>
+    <h4 class="right">@Html.ActionLink("Зарегистрировать нового пользователя", "Register", "Account")</h4>
+    <br />
 }
 
 <ul class="nav nav-tabs">
-    <li> @Ajax.ActionLink("Водители", "GetDrivers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divResponse", InsertionMode = InsertionMode.Replace })</li>
-    <li> @Ajax.ActionLink("Менеджеры", "GetManagers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divResponse", InsertionMode = InsertionMode.Replace })</li>
+    <li> @Ajax.ActionLink("Водители", "GetDrivers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
+    <li> @Ajax.ActionLink("Менеджеры", "GetManagers", "Users", new { }, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "result", InsertionMode = InsertionMode.Replace })</li>
 </ul>
 
 <br />
-<div id="divResponse">
-    
+<div id="result">
 </div>

@@ -1,6 +1,7 @@
 ﻿using Autobase.Helpers;
 using Autobase.Models.EntityViewModels;
 using AutoMapper;
+using BBL;
 using BBL.DbManager;
 using DAL.Entities;
 using System;
@@ -20,13 +21,13 @@ namespace Autobase.Controllers
         // GET: Route
         public ActionResult Index()
         {
-            return View(IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes()));
+            return View(MapperManager.GetViewListOfEntity<Route, IndexRouteViewModel>(dbManager.GetRoutes()));
         }
 
         // GET: Route/Details/5
         public ActionResult Details(int id)
         {
-            return View(IndexRouteViewModel.GetViewModel(dbManager.GetRoute(id)));
+            return View(MapperManager.Map<Route, IndexRouteViewModel>(dbManager.GetRoute(id)));
         }
 
         // GET: Route/Create
@@ -44,7 +45,7 @@ namespace Autobase.Controllers
                 if (ModelState.IsValid)
                 {
                     bool isDriver = Roles.IsUserInRole("Driver");
-                    dbManager.CreateRoute(AutoMapper.Mapper.Map<CreateRouteViewModel, Route>(model), isDriver);
+                    dbManager.CreateRoute(MapperManager.Map<CreateRouteViewModel, Route>(model), isDriver);
                     return RedirectToAction("Index");
                 }
             }
@@ -64,7 +65,7 @@ namespace Autobase.Controllers
             }
 
             var route = dbManager.GetRoute(id);
-            var view = AutoMapper.Mapper.Map<Route, EditRouteViewModel>(route);
+            var view = MapperManager.Map<Route, EditRouteViewModel>(route);
             return View(view);
         }
 
@@ -77,7 +78,7 @@ namespace Autobase.Controllers
                 if (ModelState.IsValid)
                 {
                     var routeDAL = dbManager.GetRoute(id);
-                    dbManager.EditRoute(AutoMapper.Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
+                    dbManager.EditRoute(Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
                     return RedirectToAction("Index");
                 }
             }
@@ -95,7 +96,7 @@ namespace Autobase.Controllers
             {
                 return View();
             }
-            return View(IndexRouteViewModel.GetViewModel(dbManager.GetRoute(id)));
+            return View(Mapper.Map<Route,IndexRouteViewModel>(dbManager.GetRoute(id)));
         }
 
         // POST: Route/Delete/5
@@ -146,7 +147,7 @@ namespace Autobase.Controllers
 
         public PartialViewResult Sort(int sortId)
         {
-            return PartialView(IndexRouteViewModel.GetViewListOfRoutes(dbManager.GetRoutes(sortId)));
+            return PartialView(MapperManager.GetViewListOfEntity<Route, IndexRouteViewModel>(dbManager.GetRoutes(sortId)));
         }
     }
 }

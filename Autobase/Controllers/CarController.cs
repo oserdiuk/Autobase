@@ -1,5 +1,6 @@
 ﻿using Autobase.Helpers;
 using Autobase.Models.EntityViewModels;
+using BBL;
 using BBL.DbManager;
 using DAL.Entities;
 using System;
@@ -13,19 +14,18 @@ namespace Autobase.Controllers
     [RoleAuthorized(Roles = "Admin, Manager")]
     public class CarController : Controller
     {
-        DAL.GlobalRepository repository = new DAL.GlobalRepository();
         RouteDbManager dbManager = new RouteDbManager();
 
         // GET: Car
         public ActionResult Index()
         {
-            return View(IndexCarViewModel.GetViewListOfCars(repository));
+            return View(MapperManager.GetViewListOfEntity<Car, IndexCarViewModel>(dbManager.GetCars()));
         }
 
         // GET: Car/Details/5
         public ActionResult Details(int id)
         {
-            return View(IndexCarViewModel.GetViewModel(repository, id));
+            return View(MapperManager.Map<Car, IndexCarViewModel>(dbManager.GetCar(id)));
         }
 
         // GET: Car/Create
@@ -42,7 +42,7 @@ namespace Autobase.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dbManager.CreateCar(AutoMapper.Mapper.Map<CreateCarViewModel, Car>(viewModel));
+                    dbManager.CreateCar(MapperManager.Map<CreateCarViewModel, Car>(viewModel));
                     return RedirectToAction("Index");
                 }
             }
@@ -85,7 +85,7 @@ namespace Autobase.Controllers
             {
                 return View();
             }
-            return View(IndexCarViewModel.GetViewModel(repository, id));
+            return View(MapperManager.Map<Car, IndexCarViewModel>(dbManager.GetCar(id)));
         }
 
         // POST: Car/Delete/5

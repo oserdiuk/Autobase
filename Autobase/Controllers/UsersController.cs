@@ -1,6 +1,8 @@
 ﻿using Autobase.Models.EntityViewModels;
+using BBL;
 using BBL.DbManager;
 using DAL.Abstract;
+using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,41 +24,24 @@ namespace Autobase.Controllers
         [HttpPost]
         public PartialViewResult GetDrivers()
         {
-            return PartialView(DriverViewModel.GetViewListOfUsers(dbManager.GetDrivers().ToList<IUser>()));
+            return PartialView(MapperManager.GetViewListOfEntity<Driver, DriverViewModel>(dbManager.GetDrivers().Where(d => !d.User.IsDeleted).ToList()));
         }
 
         [HttpPost]
         public PartialViewResult GetManagers()
         {
-            return PartialView(UserViewModel.GetViewListOfUsers(dbManager.GetManagers().ToList<IUser>()));   
+            return PartialView(MapperManager.GetViewListOfEntity<Manager, UserViewModel>(dbManager.GetManagers().Where(m => !m.User.IsDeleted).ToList()));   
         }
 
         // GET: Users/Details/5
-        public ActionResult Details(int id)
+        public ActionResult DriverDetails(int id)
         {
-            return View();
+            return View(MapperManager.Map<Driver, DriverViewModel>(dbManager.GetDriver(id)));
         }
 
-        // GET: Users/Create
-        public ActionResult Create()
+        public ActionResult ManagerDetails(int id)
         {
-            return View();
-        }
-
-        // POST: Users/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View(MapperManager.Map<User, UserViewModel>(dbManager.GetManager(id)));
         }
 
         // GET: Users/Edit/5

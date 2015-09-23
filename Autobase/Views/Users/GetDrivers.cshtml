@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Autobase.Models.EntityViewModels.IndexDriverViewModel>
+﻿@model IEnumerable<Autobase.Models.EntityViewModels.DriverViewModel>
 
 <table class="table">
     <tr>
@@ -28,9 +28,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.EmploymentDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDeleted)
         </th>
         <th></th>
     </tr>
@@ -65,12 +62,9 @@
             @Html.DisplayFor(modelItem => item.EmploymentDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsDeleted)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.UserId }) |
+            @Html.ActionLink("Подробности", "Details", new { id = item.UserId }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.UserId })
         </td>
     </tr>
 }

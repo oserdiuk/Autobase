@@ -28,7 +28,7 @@ namespace Autobase.Models.EntityViewModels
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
 
         [Required]
@@ -43,28 +43,9 @@ namespace Autobase.Models.EntityViewModels
         public string Phone { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EmploymentDate { get; set; }
 
         public bool IsDeleted { get; set; }
-
-        public static UserViewModel GetViewModel(IUser user)
-        {
-            return Mapper.Map<IUser, UserViewModel>(user);
-        }
-
-        public static List<UserViewModel> GetViewListOfUsers(List<IUser> users)
-        {
-            List<UserViewModel> result = new List<UserViewModel>();
-            try
-            {
-                result = Mapper.Map<IEnumerable<IUser>, List<UserViewModel>>(users);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return result;
-        }
     }
 }

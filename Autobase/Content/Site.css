@@ -53,10 +53,23 @@ textarea {
     line-height: 20px;
 }
 
+td > a {
+    color: #18334A;
+    text-decoration: none;
+}
+
+.h4 > a {
+    color: #18334A;
+}
+
 .listitem-selected {
     background-color: #D8CBBE;
 }
 
-.inactive-link{
-    color: #494a4b
+.tabs-item-selected {
+    background-color: rgba(205,234,229,0.3);
+}
+
+.inactive-link {
+    color: #494a4b;
 }

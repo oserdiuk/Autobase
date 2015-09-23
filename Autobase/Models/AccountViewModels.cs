@@ -32,8 +32,8 @@ namespace Autobase.Models
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Подтвердите пароль")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Введенные пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
 
         public List<SelectListItem> AllDrivingLicenses { get; set; }

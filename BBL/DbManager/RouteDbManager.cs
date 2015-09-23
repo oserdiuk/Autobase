@@ -173,12 +173,27 @@ namespace BBL.DbManager
 
         public List<Driver> GetDrivers()
         {
-            return this.repository.DriverRepository.GetAll().Where(driver => !driver.User.IsDeleted).ToList<Driver>();
+            return this.repository.DriverRepository.GetAll().ToList<Driver>();
         }
 
         public List<Manager> GetManagers()
         {
-            return this.repository.ManagerRepository.GetAll().Where(manager => !manager.User.IsDeleted).ToList<Manager>();
+            return this.repository.ManagerRepository.GetAll().ToList<Manager>();
+        }
+
+        public List<Car> GetCars()
+        {
+            return this.repository.CarRepository.GetAll().ToList<Car>();
+        }
+
+        public Driver GetDriver(int id)
+        {
+            return this.repository.DriverRepository.Get(id);
+        }
+
+        public User GetManager(int id)
+        {
+            return this.repository.ManagerRepository.Get(id);
         }
     }
 }

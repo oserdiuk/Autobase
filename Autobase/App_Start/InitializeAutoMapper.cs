@@ -45,7 +45,28 @@ namespace Autobase.App_Start
                 .ForMember(r => r.CarNumber, a => a.MapFrom(src => src.Car.CarNumber))
                 .ForMember(r => r.IsIntegral, a => a.MapFrom(src => src.Car.IsIntegral));
 
-            Mapper.CreateMap<User, UserViewModel>();
+            Mapper.CreateMap<Driver, DriverViewModel>()
+                .ForMember(driver => driver.Address, a => a.MapFrom(src => src.User.Address))
+                .ForMember(driver => driver.BirthDate, a => a.MapFrom(src => src.User.BirthDate))
+                .ForMember(driver => driver.City, a => a.MapFrom(src => src.User.City))
+                .ForMember(driver => driver.Email, a => a.MapFrom(src => src.User.Email))
+                .ForMember(driver => driver.EmploymentDate, a => a.MapFrom(src => src.User.EmploymentDate))
+                .ForMember(driver => driver.FirstName, a => a.MapFrom(src => src.User.FirstName))
+                .ForMember(driver => driver.IsDeleted, a => a.MapFrom(src => src.User.IsDeleted))
+                .ForMember(driver => driver.SecondName, a => a.MapFrom(src => src.User.SecondName))
+                .ForMember(driver => driver.DrivingLicenses, a => a.MapFrom(src => src.DrivingLicenses.Select(l=> l.DrivingLicenseType.Category)))
+                .ForMember(driver => driver.Phone, a => a.MapFrom(src => src.User.Phone));
+            Mapper.CreateMap<Manager, UserViewModel>()
+                .ForMember(manager => manager.Address, a => a.MapFrom(src => src.User.Address))
+                .ForMember(manager => manager.BirthDate, a => a.MapFrom(src => src.User.BirthDate))
+                .ForMember(manager => manager.City, a => a.MapFrom(src => src.User.City))
+                .ForMember(manager => manager.Email, a => a.MapFrom(src => src.User.Email))
+                .ForMember(manager => manager.EmploymentDate, a => a.MapFrom(src => src.User.EmploymentDate))
+                .ForMember(manager => manager.FirstName, a => a.MapFrom(src => src.User.FirstName))
+                .ForMember(manager => manager.IsDeleted, a => a.MapFrom(src => src.User.IsDeleted))
+                .ForMember(manager => manager.SecondName, a => a.MapFrom(src => src.User.SecondName))
+                .ForMember(manager => manager.Phone, a => a.MapFrom(src => src.User.Phone));
+
             Mapper.CreateMap<Car, IndexCarViewModel>();
         }
 
@@ -71,7 +92,8 @@ namespace Autobase.App_Start
             Mapper.CreateMap<ChangeStatusViewModel, Car>()
                            .ForMember(car => car.CarId, a => a.MapFrom(src => src.CarId))
                            .ForMember(car => car.IsIntegral, a => a.MapFrom(src => src.IsIntegral));
-            Mapper.CreateMap<UserViewModel, User>();
+
+            
         }
     }
 }

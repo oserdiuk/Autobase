@@ -197,6 +197,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
+    <Compile Include="Helpers\LogExceptionAttribute.cs" />
     <Compile Include="Helpers\ValidationAttributes\MinDateValidationAttribute.cs" />
     <Compile Include="Helpers\ValidationAttributes\RoleAuthorizedAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -241,7 +242,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\list.items-selected.js" />
+    <Content Include="Scripts\dropdownlist.items-selected.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
@@ -254,6 +255,7 @@
     <Content Include="Scripts\MvcFoolproofValidation.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tabs.items-selected.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -291,6 +293,7 @@
     <Content Include="Views\Users\GetManagers.cshtml" />
     <Content Include="Views\Users\GetDrivers.cshtml" />
     <Content Include="Views\Route\Sort.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

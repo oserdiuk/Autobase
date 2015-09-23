@@ -47,26 +47,6 @@ namespace Autobase.Models.EntityViewModels
 
         [DisplayName("Водитель")]
         public string DriverName { get; set; }
-
-        public static IndexRouteViewModel GetViewModel(Route route)
-        {
-            return Mapper.Map<Route, IndexRouteViewModel>(route);
-        }
-
-        public static List<IndexRouteViewModel> GetViewListOfRoutes(List<Route> routes)
-        {
-            List<IndexRouteViewModel> result = new List<IndexRouteViewModel>();
-            try
-            {
-                result = Mapper.Map<IEnumerable<Route>, List<IndexRouteViewModel>>(routes);
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return result;
-        }
     }
 
     public class CreateRouteViewModel
