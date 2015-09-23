@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BBL.DbManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,15 +12,10 @@ namespace Autobase.Helpers
 
         public void OnException(ExceptionContext exceptionContext)
         {
-            if (!exceptionContext.ExceptionHandled &&
-                                exceptionContext.Exception is ArgumentOutOfRangeException)
+            RouteDbManager dbManager = new RouteDbManager();
+            dbManager.AddException(exceptionContext.Exception);
+            if (!exceptionContext.ExceptionHandled)
             {
-                int val = (int)(((ArgumentOutOfRangeException)exceptionContext.Exception).ActualValue);
-                exceptionContext.Result = new ViewResult
-                {
-                    ViewName = "RangeError",
-                    ViewData = new ViewDataDictionary<int>(val)
-                };
                 exceptionContext.ExceptionHandled = true;
             }
         }

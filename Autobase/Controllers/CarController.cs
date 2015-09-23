@@ -12,6 +12,7 @@ using System.Web.Mvc;
 namespace Autobase.Controllers
 {
     [RoleAuthorized(Roles = "Admin, Manager")]
+    [LogException]
     public class CarController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();
@@ -38,17 +39,12 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Create(CreateCarViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    dbManager.CreateCar(MapperManager.Map<CreateCarViewModel, Car>(viewModel));
-                    return RedirectToAction("Index");
-                }
+                dbManager.CreateCar(MapperManager.Map<CreateCarViewModel, Car>(viewModel));
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-            }
+
             return View(viewModel);
         }
 
@@ -62,18 +58,13 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Edit(int id, EditCarViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var carDAL = dbManager.GetCar(id);
-                    dbManager.EditCar(AutoMapper.Mapper.Map<EditCarViewModel, Car>(viewModel, carDAL));
-                    return RedirectToAction("Index");
-                }
+                var carDAL = dbManager.GetCar(id);
+                dbManager.EditCar(AutoMapper.Mapper.Map<EditCarViewModel, Car>(viewModel, carDAL));
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-            }
+
             return View(viewModel);
 
         }
@@ -92,15 +83,8 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                dbManager.DeleteCar(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            dbManager.DeleteCar(id);
+            return RedirectToAction("Index");
         }
     }
 }

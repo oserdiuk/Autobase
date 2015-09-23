@@ -53,6 +53,7 @@
     <Compile Include="Entities\Driver.cs" />
     <Compile Include="Entities\DrivingLicense.cs" />
     <Compile Include="Entities\DrivingLicenseType.cs" />
+    <Compile Include="Entities\SiteException.cs" />
     <Compile Include="Entities\Manager.cs" />
     <Compile Include="Entities\Route.cs" />
     <Compile Include="Entities\RouteStatus.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Repositories\DriverRepository.cs" />
     <Compile Include="Repositories\DrivingLicenseRepository.cs" />
     <Compile Include="Repositories\DrivingLicenseTypeRepository.cs" />
+    <Compile Include="Repositories\SiteExceptionRepository.cs" />
     <Compile Include="Repositories\ManagerRepository.cs" />
     <Compile Include="Repositories\RouteRepository.cs" />
     <Compile Include="GlobalRepository.cs" />

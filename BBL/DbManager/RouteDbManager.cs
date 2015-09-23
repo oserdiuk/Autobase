@@ -39,16 +39,9 @@ namespace BBL.DbManager
 
         public void CreateCar(Car car)
         {
-            try
-            {
-                car.IsIntegral = true;
-                this.repository.CarRepository.Create(car);
-                this.repository.Save();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            car.IsIntegral = true;
+            this.repository.CarRepository.Create(car);
+            this.repository.Save();
         }
 
         public List<Car> GetCarsFreeForRoute()
@@ -191,9 +184,16 @@ namespace BBL.DbManager
             return this.repository.DriverRepository.Get(id);
         }
 
-        public User GetManager(int id)
+        public Manager GetManager(int id)
         {
             return this.repository.ManagerRepository.Get(id);
+        }
+
+        public void AddException(Exception exception)
+        {
+            var siteExeption = MapperManager.Map<Exception, SiteException>(exception);
+            this.repository.SiteExceptionRepository.Create(siteExeption);
+            this.repository.Save();
         }
     }
 }

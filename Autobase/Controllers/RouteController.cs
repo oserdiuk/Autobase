@@ -14,6 +14,7 @@ using System.Web.Security;
 namespace Autobase.Controllers
 {
     [Authorize]
+    [LogException]
     public class RouteController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();
@@ -40,20 +41,14 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Create(CreateRouteViewModel model)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    bool isDriver = Roles.IsUserInRole("Driver");
-                    dbManager.CreateRoute(MapperManager.Map<CreateRouteViewModel, Route>(model), isDriver);
-                    return RedirectToAction("Index");
-                }
-            }
-            catch (Exception ex)
-            {
+                bool isDriver = Roles.IsUserInRole("Driver");
+                dbManager.CreateRoute(MapperManager.Map<CreateRouteViewModel, Route>(model), isDriver);
+                return RedirectToAction("Index");
             }
             return View(model);
-
         }
 
         // GET: Route/Edit/5
@@ -73,18 +68,13 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Edit(int id, EditRouteViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var routeDAL = dbManager.GetRoute(id);
-                    dbManager.EditRoute(Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
-                    return RedirectToAction("Index");
-                }
+                var routeDAL = dbManager.GetRoute(id);
+                dbManager.EditRoute(Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-            }
+
             return View(model);
 
         }
@@ -96,22 +86,16 @@ namespace Autobase.Controllers
             {
                 return View();
             }
-            return View(Mapper.Map<Route,IndexRouteViewModel>(dbManager.GetRoute(id)));
+            return View(Mapper.Map<Route, IndexRouteViewModel>(dbManager.GetRoute(id)));
         }
 
         // POST: Route/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                dbManager.DeleteRoute(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            throw new Exception();
+            dbManager.DeleteRoute(id);
+            return RedirectToAction("Index");
         }
 
         [RoleAuthorized(Roles = "Admin, Manager")]

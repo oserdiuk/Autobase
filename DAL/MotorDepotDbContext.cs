@@ -22,6 +22,7 @@ namespace DAL
         public DbSet<Route> Routes { get; set; }
         public DbSet<RouteStatus> RouteStatuses { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<SiteException> SiteExceptions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

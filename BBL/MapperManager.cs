@@ -12,14 +12,7 @@ namespace BBL
         public static List<R> GetViewListOfEntity<I, R>(List<I> entities)
         {
             List<R> result = new List<R>();
-            try
-            {
-                result = Mapper.Map<IEnumerable<I>, List<R>>(entities);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            result = Mapper.Map<IEnumerable<I>, List<R>>(entities);
             return result;
         }
 

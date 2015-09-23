@@ -93,7 +93,12 @@ namespace Autobase.App_Start
                            .ForMember(car => car.CarId, a => a.MapFrom(src => src.CarId))
                            .ForMember(car => car.IsIntegral, a => a.MapFrom(src => src.IsIntegral));
 
-            
+            Mapper.CreateMap<Exception, SiteException>()
+               .ForMember(ex => ex.HelpLink, a => a.MapFrom(src => src.HelpLink))
+               .ForMember(ex => ex.InnerException, a => a.MapFrom(src => src.InnerException.Message))
+               .ForMember(ex => ex.Message, a => a.MapFrom(src => src.Message))
+               .ForMember(ex => ex.Source, a => a.MapFrom(src => src.Source))
+               .ForMember(ex => ex.StackTrace, a => a.MapFrom(src => src.StackTrace));            
         }
     }
 }

@@ -13,10 +13,12 @@ using WebMatrix.WebData;
 using System.Web.Security;
 using DAL;
 using BBL.DbManager;
+using Autobase.Helpers;
 
 namespace Autobase.Controllers
 {
     [Authorize]
+    [LogException]
     public class AccountController : Controller
     {
         private RouteDbManager dbManager = new RouteDbManager();
@@ -147,43 +149,35 @@ namespace Autobase.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                if (model.EmploymentDate == null)
                 {
-                    if (model.EmploymentDate == null)
-                    {
-                        model.EmploymentDate = DateTime.Now;
-                    }
-                    var r = WebSecurity.CreateUserAndAccount(model.Email, model.Password, new
-                        {
-                            Email = model.Email,
-                            FirstName = model.FirstName,
-                            SecondName = model.SecondName,
-                            BirthDate = model.BirthDate,
-                            Address = model.Address,
-                            City = model.City,
-                            Phone = model.Phone,
-                            EmploymentDate = model.EmploymentDate,
-                            IsDeleted = false
-                        });
-
-                    SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
-                    if (model.SelectedDrivingLicenses.Count() > 0)
-                    {
-                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Driver" });
-                        dbManager.CreateDriverLicenses(model.SelectedDrivingLicenses);
-                    }
-                    else
-                    {
-                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
-                        dbManager.CreateManager();
-                    }
-                    return RedirectToLocal(returnUrl);
+                    model.EmploymentDate = DateTime.Now;
                 }
-                catch (Exception ex)
+                var r = WebSecurity.CreateUserAndAccount(model.Email, model.Password, new
+                    {
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        SecondName = model.SecondName,
+                        BirthDate = model.BirthDate,
+                        Address = model.Address,
+                        City = model.City,
+                        Phone = model.Phone,
+                        EmploymentDate = model.EmploymentDate,
+                        IsDeleted = false
+                    });
+
+                SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
+                if (model.SelectedDrivingLicenses.Count() > 0)
                 {
-
-                    throw;
+                    roles.AddUsersToRoles(new[] { model.Email }, new[] { "Driver" });
+                    dbManager.CreateDriverLicenses(model.SelectedDrivingLicenses);
                 }
+                else
+                {
+                    roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
+                    dbManager.CreateManager();
+                }
+                return RedirectToLocal(returnUrl);
             }
             return View(model);
         }
@@ -214,7 +208,7 @@ namespace Autobase.Controllers
         //    var result = await UserManager.ConfirmEmailAsync(userId, code);
         //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
         //}
-                
+
         ////
         //// GET: /Account/ForgotPassword
         //[AllowAnonymous]
@@ -416,7 +410,7 @@ namespace Autobase.Controllers
         //}
 
         //
-     
+
 
         //
         // GET: /Account/ExternalLoginFailure

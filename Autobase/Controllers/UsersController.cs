@@ -1,4 +1,5 @@
-﻿using Autobase.Models.EntityViewModels;
+﻿using Autobase.Helpers;
+using Autobase.Models.EntityViewModels;
 using BBL;
 using BBL.DbManager;
 using DAL.Abstract;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Autobase.Controllers
 {
+    [LogException]
     public class UsersController : Controller
     {
         RouteDbManager dbManager = new RouteDbManager();
@@ -41,7 +43,7 @@ namespace Autobase.Controllers
 
         public ActionResult ManagerDetails(int id)
         {
-            return View(MapperManager.Map<User, UserViewModel>(dbManager.GetManager(id)));
+            return View(MapperManager.Map<Manager, UserViewModel>(dbManager.GetManager(id)));
         }
 
         // GET: Users/Edit/5

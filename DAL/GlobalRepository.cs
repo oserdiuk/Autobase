@@ -20,11 +20,25 @@ namespace DAL
         private DrivingLicenseRepository drivingLicenseRepository;
         private DriverRepository driverRepository;
         private DrivingLicenseTypeRepository drivingLicenseTypeRepository;
-
+        private SiteExceptionRepository siteExceptionRepository;
+        
         public GlobalRepository()
         {
             UpdateCarStatuses();
         }
+
+        public SiteExceptionRepository SiteExceptionRepository
+        {
+            get
+            {
+                if (siteExceptionRepository == null)
+                {
+                    siteExceptionRepository = new SiteExceptionRepository(dbContext);
+                }
+                return siteExceptionRepository;
+            }
+        }
+
         public DrivingLicenseTypeRepository DrivingLicenseTypeRepository
         {
             get

@@ -1,4 +1,5 @@
 ﻿using Autobase.App_Start;
+using Autobase.Helpers;
 using DAL;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using WebMatrix.WebData;
 
 namespace Autobase
 {
+    [LogException]
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
