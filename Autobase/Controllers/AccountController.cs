@@ -137,7 +137,7 @@ namespace Autobase.Controllers
         public ActionResult Register(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View(new RegisterViewModel(dbManager.GetDrivingLicenseTypes()));
+            return View(new RegisterViewModel());
         }
 
         //

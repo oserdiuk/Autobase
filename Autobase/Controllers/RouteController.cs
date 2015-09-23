@@ -40,12 +40,15 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Create(CreateRouteViewModel model)
         {
-
             if (ModelState.IsValid)
             {
-                bool isDriver = Roles.IsUserInRole("Driver");
-                dbManager.CreateRoute(MapperManager.Map<CreateRouteViewModel, Route>(model), isDriver);
-                return RedirectToAction("Index");
+                if (model.DepartureDate.Add(model.DepartureTime.TimeOfDay).GreaterThanNow())
+                {
+                    bool isDriver = Roles.IsUserInRole("Driver");
+                    dbManager.CreateRoute(MapperManager.Map<CreateRouteViewModel, Route>(model), isDriver);
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("DepartureDate", "Дата отправления меньше сегодняшней даты");
             }
             return View(model);
         }
@@ -92,7 +95,6 @@ namespace Autobase.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            throw new Exception();
             dbManager.DeleteRoute(id);
             return RedirectToAction("Index");
         }

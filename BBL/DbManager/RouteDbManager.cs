@@ -195,5 +195,23 @@ namespace BBL.DbManager
             this.repository.SiteExceptionRepository.Create(siteExeption);
             this.repository.Save();
         }
+
+        public IUser GetUser(int id, RoleEnum role = RoleEnum.Admin)
+        {
+            IUser result = null;
+            switch (role)
+            {
+                case RoleEnum.Driver:
+                    result = this.GetDriver(id);
+                    break;
+                case RoleEnum.Manager:
+                    result = this.GetManager(id);
+                    break;
+                default: 
+                    this.repository.UserRepository.Get(id);
+                    break;
+            }
+            return result;
+        }
     }
 }

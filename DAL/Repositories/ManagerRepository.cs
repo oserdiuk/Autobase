@@ -25,7 +25,7 @@ namespace DAL.Repositories
 
         public Manager Get(int id)
         {
-            return dbContext.Managers.Find(id);
+            return dbContext.Managers.FirstOrDefault(manager => manager.UserId == id);
         }
 
         public void Create(Manager item)

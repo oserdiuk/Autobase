@@ -199,7 +199,6 @@
     </Compile>
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Helpers\LogExceptionAttribute.cs" />
-    <Compile Include="Helpers\ValidationAttributes\MinDateValidationAttribute.cs" />
     <Compile Include="Helpers\ValidationAttributes\RoleAuthorizedAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EntityViewModels\CarViewModel.cs" />
@@ -294,6 +293,9 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
+    <Content Include="Views\Users\DriverDetails.cshtml" />
+    <Content Include="Views\Account\EditUserPartialView.cshtml" />
+    <Content Include="Views\Users\ManagerDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

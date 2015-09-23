@@ -1,4 +1,5 @@
 ﻿using Autobase.Helpers;
+using Autobase.Models;
 using Autobase.Models.EntityViewModels;
 using BBL;
 using BBL.DbManager;
@@ -45,15 +46,20 @@ namespace Autobase.Controllers
             return View(MapperManager.Map<Manager, UserViewModel>(dbManager.GetManager(id)));
         }
 
-        // GET: Users/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, RoleEnum role)
         {
-            return View();
+            var m = dbManager.GetUser(id, role);
+            var model = RoleMapperManager.Map<RegisterViewModel>(m);
+            //if (m.UserInRole is Driver)
+            //{
+            //    model.AllDrivingLicenses.AddDrivingLicenses();
+            //}
+            return View(model);
         }
 
         // POST: Users/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(RegisterViewModel model)
         {
             try
             {

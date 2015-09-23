@@ -1,10 +1,13 @@
-﻿using Autobase.Models.EntityViewModels;
+﻿using Autobase.Models;
+using Autobase.Models.EntityViewModels;
 using AutoMapper;
+using BBL;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DAL.Abstract;
 
 namespace Autobase.App_Start
 {
@@ -54,7 +57,7 @@ namespace Autobase.App_Start
                 .ForMember(driver => driver.FirstName, a => a.MapFrom(src => src.User.FirstName))
                 .ForMember(driver => driver.IsDeleted, a => a.MapFrom(src => src.User.IsDeleted))
                 .ForMember(driver => driver.SecondName, a => a.MapFrom(src => src.User.SecondName))
-                .ForMember(driver => driver.DrivingLicenses, a => a.MapFrom(src => src.DrivingLicenses.Select(l=> l.DrivingLicenseType.Category)))
+                .ForMember(driver => driver.DrivingLicenses, a => a.MapFrom(src => src.DrivingLicenses.Select(l => l.DrivingLicenseType.Category).ToList<string>()))
                 .ForMember(driver => driver.Phone, a => a.MapFrom(src => src.User.Phone));
             Mapper.CreateMap<Manager, UserViewModel>()
                 .ForMember(manager => manager.Address, a => a.MapFrom(src => src.User.Address))
@@ -67,6 +70,13 @@ namespace Autobase.App_Start
                 .ForMember(manager => manager.SecondName, a => a.MapFrom(src => src.User.SecondName))
                 .ForMember(manager => manager.Phone, a => a.MapFrom(src => src.User.Phone));
 
+            #region registerViewModel
+
+            Mapper.CreateMap<User, RegisterViewModel>();
+            Mapper.CreateMap<Manager, RegisterViewModel>();
+            Mapper.CreateMap<Driver, RegisterViewModel>();
+
+            #endregion
             Mapper.CreateMap<Car, IndexCarViewModel>();
         }
 
@@ -97,7 +107,7 @@ namespace Autobase.App_Start
                .ForMember(ex => ex.InnerException, a => a.MapFrom(src => src.InnerException.Message))
                .ForMember(ex => ex.Message, a => a.MapFrom(src => src.Message))
                .ForMember(ex => ex.Source, a => a.MapFrom(src => src.Source))
-               .ForMember(ex => ex.StackTrace, a => a.MapFrom(src => src.StackTrace));            
+               .ForMember(ex => ex.StackTrace, a => a.MapFrom(src => src.StackTrace));
         }
     }
 }

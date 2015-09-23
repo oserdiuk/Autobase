@@ -25,7 +25,7 @@ namespace DAL.Repositories
 
         public Driver Get(int id)
         {
-            return dbContext.Drivers.Find(id);
+            return dbContext.Drivers.FirstOrDefault(driver => driver.UserId == id);
         }
 
         public void Create(Driver item)

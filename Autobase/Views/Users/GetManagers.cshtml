@@ -58,8 +58,8 @@
                 @Html.DisplayFor(modelItem => item.EmploymentDate)
             </td>
             <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.UserId }) |
-                @Html.ActionLink("Подробности", "Details", new { id = item.UserId }) |
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.UserId, role = BBL.RoleEnum.Manager }) |
+                @Html.ActionLink("Подробности", "ManagerDetails", new { id = item.UserId }) |
                 @Html.ActionLink("Удалить", "Delete", new { id = item.UserId }) 
             </td>
         </tr>

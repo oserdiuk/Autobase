@@ -91,5 +91,32 @@ namespace Autobase.Helpers
                 list.Add(item);
             }
         }
+
+        public static void AddDrivingLicenses(this List<SelectListItem> list, Driver driver = null)
+        {
+            RouteDbManager dbManager = new RouteDbManager();
+            List<DrivingLicenseType> licenses = dbManager.GetDrivingLicenseTypes();
+
+            SelectListItem item;
+            foreach (var license in licenses)
+            {
+                item = new SelectListItem()
+                {
+                    Text = String.Format("{0} ({1})", license.Category, license.TransportType),
+                    Value = license.DrivingLicenseTypeId.ToString()
+                };
+
+                if (driver != null)
+                {
+                    item.Selected = driver.DrivingLicenses.Where(l => l.DrivingLicenseTypeId == license.DrivingLicenseTypeId).Count() > 0;
+                }
+                list.Add(item);
+            }
+        }
+
+        public static bool GreaterThanNow(this DateTime date)
+        {
+            return date > DateTime.Now;
+        }
     }
 }

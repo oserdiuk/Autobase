@@ -20,8 +20,10 @@ namespace DAL.Entities
         public string Phone { get; set; }
         public DateTime EmploymentDate { get; set; }
         public bool IsDeleted { get; set; }
+        
 
-        public virtual IUser UserInRole { get; set; }
+        public virtual IUser Manager { get; set; }
+        public virtual IUser Driver { get; set; }
 
     }
 }

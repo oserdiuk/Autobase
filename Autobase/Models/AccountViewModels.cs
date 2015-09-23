@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Autobase.Helpers;
 
 namespace Autobase.Models
 {
@@ -26,7 +27,7 @@ namespace Autobase.Models
     public class RegisterViewModel : UserViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Пароль должен содержать минимум {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -37,30 +38,15 @@ namespace Autobase.Models
         public string ConfirmPassword { get; set; }
 
         public List<SelectListItem> AllDrivingLicenses { get; set; }
-        
+
+        [Display(Name = "Выберите категории прав, если желаете зарегистрировать водителя")]
         public List<string> SelectedDrivingLicenses { get; set; }
 
         public RegisterViewModel()
         {
             this.SelectedDrivingLicenses = new List<string>();
             this.AllDrivingLicenses = new List<SelectListItem>();
-        }
-
-        public RegisterViewModel(List<DAL.Entities.DrivingLicenseType> licenses)
-        {
-            if (licenses != null)
-            {
-                this.SelectedDrivingLicenses = new List<string>();
-                this.AllDrivingLicenses = new List<SelectListItem>();
-                foreach (var license in licenses)
-                {
-                    this.AllDrivingLicenses.Add(new SelectListItem()
-                    {
-                        Text = String.Format("{0} ({1})", license.Category, license.TransportType),
-                        Value = license.DrivingLicenseTypeId.ToString()
-                    });
-                }
-            }
+            this.AllDrivingLicenses.AddDrivingLicenses();
         }
 
     }
