@@ -1,0 +1,95 @@
+﻿@model Autobase.Models.EntityViewModels.DriverViewModel
+
+@{
+    ViewBag.Title = "Удаление водителя";
+}
+
+@if (Model == null)
+{
+    <h4>Вы не можете удалить этого водителя, так как он занят. </h4>
+}
+else
+{
+    <h3>Вы уверены, что хотите удалить этого водителя?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            @Html.HiddenFor(model => model.UserId)
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SecondName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BirthDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EmploymentDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmploymentDate)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-default" /> |
+                @Html.ActionLink("Назад", "Index")
+            </div>
+        }
+    </div>
+}

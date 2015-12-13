@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Autobase.Models.DriversHoursInRoadViewModel>
+
+@{
+    ViewBag.Title = "GetDriversHoursInRoad";
+}
+
+@foreach (var item in Model)
+{
+    @Html.HiddenFor(modelItem => item.DriverId)
+
+    <h4>
+        @Html.DisplayFor(modelItem => item.DriverFirstName)
+        <span> </span>
+        @Html.DisplayFor(modelItem => item.DriverSecondName)
+        <br />
+    </h4>
+    <h5>
+        <span>All time in road: </span>
+        @Html.DisplayFor(modelItem => item.AllHoursInRoad)
+    </h5>
+    <br />
+
+    foreach (var directons in item.DriverDirectionsHours)
+    {
+        @directons.Key <span> - </span> @TimeSpan.FromTicks(directons.Value)
+        <br />
+    }
+
+    foreach (var car in item.DriverCarsHours)
+    {
+        @car.Key <span> - </span> @TimeSpan.FromTicks(car.Value)
+        <br />
+    }
+    <hr />
+}
+
+
