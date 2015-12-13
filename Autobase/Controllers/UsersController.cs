@@ -15,7 +15,7 @@ namespace Autobase.Controllers
 {
     public class UsersController : Controller
     {
-        RouteDbManager dbManager = new RouteDbManager();
+        DbManager dbManager = new DbManager();
         
         // GET: Users
         public ActionResult Index()
@@ -26,13 +26,13 @@ namespace Autobase.Controllers
         [HttpPost]
         public PartialViewResult GetDrivers()
         {
-            return PartialView(MapperManager.GetViewListOfEntity<Driver, DriverViewModel>(dbManager.GetDrivers().Where(d => !d.User.IsDeleted).ToList()));
+            return PartialView(MapperManager.GetViewListOfEntity<Driver, DriverViewModel>(dbManager.GetNotDeletedDrivers()));
         }
 
         [HttpPost]
         public PartialViewResult GetManagers()
         {
-            return PartialView(MapperManager.GetViewListOfEntity<Manager, UserViewModel>(dbManager.GetManagers().Where(m => !m.User.IsDeleted).ToList()));   
+            return PartialView(MapperManager.GetViewListOfEntity<Manager, UserViewModel>(dbManager.GetNotDeletedManagers()));   
         }
 
         // GET: Users/Details/5
@@ -46,42 +46,46 @@ namespace Autobase.Controllers
             return View(MapperManager.Map<Manager, UserViewModel>(dbManager.GetManager(id)));
         }
 
-        public ActionResult Edit(int id, RoleEnum role)
-        {
-            var m = dbManager.GetUser(id, role);
-            var model = RoleMapperManager.Map<RegisterViewModel>(m);
-            if (m is Driver)
-            {
-                model.AllDrivingLicenses.AddDrivingLicenses(m as Driver);
-                model.SelectedDrivingLicenses = model.AllDrivingLicenses.Where(x => x.Selected).Select(x => x.Value).ToList();
-            }
-            return View(model);
-        }
+        //public ActionResult Edit(int id, RoleEnum role)
+        //{
+        //    var m = dbManager.GetUser(id, role);
+        //    var model = RoleMapperManager.Map<RegisterViewModel>(m);
+        //    if (m is Driver)
+        //    {
+        //        model.AllDrivingLicenses.AddDrivingLicenses(m as Driver);
+        //        model.SelectedDrivingLicenses = model.AllDrivingLicenses.Where(x => x.Selected).Select(x => x.Value).ToList();
+        //    }
+        //    return View(model);
+        //}
 
-        // POST: Users/Edit/5
-        [HttpPost]
-        public ActionResult Edit(RegisterViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var m = dbManager.GetUser(model.UserId, RoleEnum.Driver);
-                    //RoleMapperManager.Map<RegisterViewModel, User>(model, m.User);
-                    this.dbManager.UpdateUser(m);
-                }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: Users/Edit/5
+        //[HttpPost]
+        //public ActionResult Edit(RegisterViewModel model)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            //TODO insert logic here
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
         // GET: Users/Delete/5
+
         public ActionResult DeleteDriver(int id)
         {
-            return View(MapperManager.Map<Driver, DriverViewModel>(dbManager.GetDriver(id)));        
+            var driver = dbManager.GetDriver(id);
+            if (driver.Routes.Where(route => dbManager.GetInProgressStatusId() == route.RouteStatusId || dbManager.GetWaitingForDepartStatusId() == route.RouteStatusId).Count() == 0)
+            {
+                return View(MapperManager.Map<Driver, DriverViewModel>(driver));        
+            }
+            return View();
         }
 
         public ActionResult DeleteManager(int id)
@@ -91,12 +95,25 @@ namespace Autobase.Controllers
 
         // POST: Users/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteManager(int id, FormCollection form)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                dbManager.DeleteUser(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteDriver(int id, FormCollection form)
+        {
+            try
+            {
+                dbManager.DeleteUser(id);
+                dbManager.CancelRoutesOfDriver(id);
                 return RedirectToAction("Index");
             }
             catch

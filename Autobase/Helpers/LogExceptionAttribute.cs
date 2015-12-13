@@ -8,12 +8,13 @@ using System.Web.Routing;
 
 namespace Autobase.Helpers
 {
+    //Adding exception logs to database
     public class LogExceptionAttribute : FilterAttribute, IExceptionFilter
     {
 
         public void OnException(ExceptionContext exceptionContext)
         {
-            RouteDbManager dbManager = new RouteDbManager();
+            DbManager dbManager = new DbManager();
             dbManager.AddException(exceptionContext.Exception);
         }
     }

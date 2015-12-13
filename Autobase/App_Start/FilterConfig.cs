@@ -10,7 +10,6 @@ namespace Autobase
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new LogExceptionAttribute());
-            //todo uncomment this
         }
     }
 }

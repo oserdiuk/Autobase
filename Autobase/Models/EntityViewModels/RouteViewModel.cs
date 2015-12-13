@@ -17,7 +17,7 @@ namespace Autobase.Models.EntityViewModels
 {
     public class IndexRouteViewModel
     {
-        [DisplayName("Id рейса")]
+        [DisplayName("Номер рейса")]
         public int RouteId { get; set; }
 
         [DisplayName("Направление")]
@@ -50,7 +50,7 @@ namespace Autobase.Models.EntityViewModels
 
     public class CreateRouteViewModel
     {
-        [DisplayName("Id рейса")]
+        [DisplayName("Номер рейса")]
         public int RouteId { get; set; }
 
         [DisplayName("Направление")]
@@ -102,7 +102,7 @@ namespace Autobase.Models.EntityViewModels
 
     public class EditRouteViewModel
     {
-        [DisplayName("Id рейса")]
+        [DisplayName("Номер рейса")]
         public int RouteId { get; set; }
 
         [DisplayName("Направление")]
@@ -133,7 +133,7 @@ namespace Autobase.Models.EntityViewModels
         [DisplayFormat(DataFormatString = "{0:HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime ArrivalTime { get; set; }
 
-        [DisplayName("Id машины")]
+        [DisplayName("Автомобиль")]
         public string CarId { get; set; }
 
         [DisplayName("Водитель")]

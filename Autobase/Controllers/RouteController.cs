@@ -1,4 +1,5 @@
 ﻿using Autobase.Helpers;
+using Autobase.Models;
 using Autobase.Models.EntityViewModels;
 using AutoMapper;
 using BBL;
@@ -16,7 +17,7 @@ namespace Autobase.Controllers
     [Authorize]
     public class RouteController : Controller
     {
-        RouteDbManager dbManager = new RouteDbManager();
+        DbManager dbManager = new DbManager();
 
         // GET: Route
         public ActionResult Index()
@@ -42,6 +43,7 @@ namespace Autobase.Controllers
         {
             if (ModelState.IsValid)
             {
+                //check if the chosen date is greater than now
                 if (model.DepartureDate.Add(model.DepartureTime.TimeOfDay).GreaterThanNow())
                 {
                     bool isDriver = Roles.IsUserInRole("Driver");
@@ -73,6 +75,10 @@ namespace Autobase.Controllers
             if (ModelState.IsValid)
             {
                 var routeDAL = dbManager.GetRoute(id);
+                if (Roles.IsUserInRole("Driver"))
+                {
+                    routeDAL.RouteStatusId = dbManager.GetWaitingForConfirmStatusId();
+                }
                 dbManager.EditRoute(Mapper.Map<EditRouteViewModel, Route>(model, routeDAL));
                 return RedirectToAction("Index");
             }
@@ -133,6 +139,13 @@ namespace Autobase.Controllers
         public PartialViewResult Sort(int sortId)
         {
             return PartialView(MapperManager.GetViewListOfEntity<Route, IndexRouteViewModel>(dbManager.GetRoutes(sortId)));
+        }
+
+        public ActionResult GetDriversHoursInRoad()
+        {
+            var drivers = dbManager.GetDrivers();
+            dbManager.GetInProgressRoutes(drivers);
+            return View(MapperManager.GetViewListOfEntity<Driver, DriversHoursInRoadViewModel>(drivers).OrderByDescending(l => l.AllHoursInRoad).ToList());
         }
     }
 }

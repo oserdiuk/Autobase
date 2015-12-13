@@ -7,6 +7,7 @@ using System.Web.Routing;
 
 namespace Autobase.Helpers
 {
+    //Check authorized user for a role
     public class RoleAuthorizedAttribute : AuthorizeAttribute
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

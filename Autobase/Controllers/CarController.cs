@@ -14,12 +14,12 @@ namespace Autobase.Controllers
     [RoleAuthorized(Roles = "Admin, Manager")]
     public class CarController : Controller
     {
-        RouteDbManager dbManager = new RouteDbManager();
+        DbManager dbManager = new DbManager();
 
         // GET: Car
         public ActionResult Index()
         {
-            return View(MapperManager.GetViewListOfEntity<Car, IndexCarViewModel>(dbManager.GetCars()));
+            return View(MapperManager.GetViewListOfEntity<Car, IndexCarViewModel>(dbManager.GetAllCars()));
         }
 
         // GET: Car/Details/5

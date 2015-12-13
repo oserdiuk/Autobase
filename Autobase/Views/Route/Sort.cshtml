@@ -3,31 +3,31 @@
 <table class="table">
     <tr>
         <th>
-            Номер рейса
+            @Html.DisplayNameFor(model => model.RouteId)
         </th>
         <th>
-            Дата создания рейса
+            @Html.DisplayNameFor(model => model.CreatingDate)
         </th>
         <th>
-            Направление
+            @Html.DisplayNameFor(model => model.Direction)
         </th>
         <th>
-            Название машины
+            @Html.DisplayNameFor(model => model.CarName)
         </th>
         <th>
-            Номер машины
+            @Html.DisplayNameFor(model => model.CarNumber)
         </th>
         <th>
-            Дата и время отправления
+            @Html.DisplayNameFor(model => model.DepartureDate)
         </th>
         <th>
-            Дата и время прибытия
+            @Html.DisplayNameFor(model => model.ArrivalDate)
         </th>
         <th>
-            Имя водителя
+            @Html.DisplayNameFor(model => model.DriverName)
         </th>
         <th>
-            Статус рейса
+            @Html.DisplayNameFor(model => model.RouteStatusName)
         </th>
     </tr>
 
@@ -74,8 +74,14 @@
                 }
                 else
                 {
-                    @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
-                    @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
+                    if (!item.RouteStatusName.Contains("Выполняетс"))
+                    {
+                        @Html.ActionLink("Редактировать", "Edit", new { id = item.RouteId }) <span> | </span>
+                    }
+                    if (!item.RouteStatusName.Contains("подтверж"))
+                    {
+                        @Html.ActionLink("Сменить состояние рейса и машины", "ChangeRouteStatus", new { id = item.RouteId }) <span> | </span>
+                    }
                 }
                 @Html.ActionLink("Подробнее", "Details", new { id = item.RouteId })
             </td>

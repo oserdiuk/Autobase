@@ -20,46 +20,8 @@ namespace Autobase.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private RouteDbManager dbManager = new RouteDbManager();
-        //private ApplicationSignInManager _signInManager;
-        //private ApplicationUserManager _userManager;
+        private DbManager dbManager = new DbManager();
 
-        public AccountController()
-        {
-        }
-
-        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        //{
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //}
-
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set
-        //    {
-        //        _signInManager = value;
-        //    }
-        //}
-
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
-
-        //
-        // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -84,7 +46,7 @@ namespace Autobase.Controllers
             {
                 return RedirectToLocal(returnUrl);
             }
-            ModelState.AddModelError("", "Invalid login attempt.");
+            ModelState.AddModelError("", "Неправильно введен пароль.");
             return View(model);
         }
 
@@ -152,31 +114,39 @@ namespace Autobase.Controllers
                 {
                     model.EmploymentDate = DateTime.Now;
                 }
-                var r = WebSecurity.CreateUserAndAccount(model.Email, model.Password, new
-                    {
-                        Email = model.Email,
-                        FirstName = model.FirstName,
-                        SecondName = model.SecondName,
-                        BirthDate = model.BirthDate,
-                        Address = model.Address,
-                        City = model.City,
-                        Phone = model.Phone,
-                        EmploymentDate = model.EmploymentDate,
-                        IsDeleted = false
-                    });
+                try
+                {
 
-                SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
-                if (model.SelectedDrivingLicenses.Count() > 0)
-                {
-                    roles.AddUsersToRoles(new[] { model.Email }, new[] { "Driver" });
-                    dbManager.CreateDriverLicenses(model.SelectedDrivingLicenses);
+                    var r = WebSecurity.CreateUserAndAccount(model.Email, model.Password, new
+                        {
+                            Email = model.Email,
+                            FirstName = model.FirstName,
+                            SecondName = model.SecondName,
+                            BirthDate = model.BirthDate,
+                            Address = model.Address,
+                            City = model.City,
+                            Phone = model.Phone,
+                            EmploymentDate = model.EmploymentDate,
+                            IsDeleted = false
+                        });
+
+                    SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;
+                    if (model.SelectedDrivingLicenses.Count() > 0)
+                    {
+                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Driver" });
+                        dbManager.CreateDriverLicenses(model.SelectedDrivingLicenses);
+                    }
+                    else
+                    {
+                        roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
+                        dbManager.CreateManager();
+                    }
+                    return RedirectToLocal(returnUrl);
                 }
-                else
+                catch
                 {
-                    roles.AddUsersToRoles(new[] { model.Email }, new[] { "Manager" });
-                    dbManager.CreateManager();
+
                 }
-                return RedirectToLocal(returnUrl);
             }
             return View(model);
         }

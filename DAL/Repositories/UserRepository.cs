@@ -42,7 +42,9 @@ namespace DAL.Repositories
         {
             User user = dbContext.Users.Find(id);
             if (user != null)
-                dbContext.Users.Remove(user);
+            {
+                user.IsDeleted = true;
+            }
         }
     }
 }

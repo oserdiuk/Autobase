@@ -9,13 +9,6 @@ namespace Autobase.Controllers
 {
     public class HomeController : Controller
     {
-        //private IMotorDepotRepository repository;
-
-        //public HomeController(IMotorDepotRepository repository)
-        //{
-        //    this.repository = repository;
-        //}
-
         public ActionResult Index()
         {
             return View();

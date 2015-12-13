@@ -2,9 +2,7 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
@@ -32,41 +30,44 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SecondName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BirthDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmploymentDate)
-        </td>
-        <td>
-            @*@Html.ActionLink("Редактировать", "Edit", new { id = item.UserId, role = BBL.RoleEnum.Driver }) |*@
-            @Html.ActionLink("Подробности", "DriverDetails", new { id = item.UserId }) |
-            @Html.ActionLink("Удалить", "Delete", new { id = item.UserId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            @Html.HiddenFor(modelItem => item.UserId)
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmploymentDate)
+            </td>
+            <td>
+                @*@Html.ActionLink("Редактировать", "Edit", new { id = item.UserId, role = BBL.RoleEnum.Driver }) |*@
+                @Html.ActionLink("Подробности", "DriverDetails", new { id = item.UserId })
+                @if (!Roles.IsUserInRole("Driver"))
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Удалить", "DeleteDriver", new { id = item.UserId })
+                }
+            </td>
+        </tr>
+    }
 
 </table>

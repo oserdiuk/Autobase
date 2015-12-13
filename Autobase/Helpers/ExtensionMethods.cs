@@ -10,9 +10,10 @@ namespace Autobase.Helpers
 {
     public static class ExtensionMethods
     {
+        //Creating and adding list items of car types to a listbox
         public static void AddCarTypes(this List<SelectListItem> list)
         {
-            RouteDbManager manager = new RouteDbManager();
+            DbManager manager = new DbManager();
             List<string> types = manager.GetCarTypes();
             foreach (var type in types)
             {
@@ -24,10 +25,11 @@ namespace Autobase.Helpers
             }
         }
 
+        //Creating and adding list items of drivers to a listbox
         public static void AddDrivers(this List<SelectListItem> list)
         {
-            RouteDbManager manager = new RouteDbManager();
-            List<Driver> drivers = manager.GetDrivers();
+            DbManager manager = new DbManager();
+            List<Driver> drivers = manager.GetNotDeletedDrivers();
             string driverLicenses = String.Empty;
             foreach (var driver in drivers)
             {
@@ -38,15 +40,17 @@ namespace Autobase.Helpers
 
                 list.Add(new SelectListItem()
                 {
-                    Text = String.Format("{0} {1} ({2})", driver.User.FirstName, driver.User.SecondName, driverLicenses.Substring(0, driverLicenses.Length - 3)),
+                    Text = String.Format("{0} {1} ({2})", driver.User.FirstName, driver.User.SecondName, driverLicenses),
                     Value = driver.DriverId.ToString()
                 });
+                driverLicenses = String.Empty;
             }
         }
 
+        //Creating and adding list items of free and integral cars to a listbox
         public static void AddFreeCars(this List<SelectListItem> list, int currentCarId = 0)
         {
-            RouteDbManager dbManager = new RouteDbManager();
+            DbManager dbManager = new DbManager();
             List<Car> cars = dbManager.GetCarsFreeForRoute();
             cars.Add(dbManager.GetCar(currentCarId));
 
@@ -70,9 +74,10 @@ namespace Autobase.Helpers
             }
         }
 
+        //Creating and adding list items of all routes statuses to a listbox and make one of them selected
         public static void AddRouteStatuses(this List<SelectListItem> list, int currentStatusId = 0)
         {
-            RouteDbManager dbManager = new RouteDbManager();
+            DbManager dbManager = new DbManager();
             List<RouteStatus> routeStatuses = dbManager.GetRouteStatuses();
 
             SelectListItem item;
@@ -92,6 +97,7 @@ namespace Autobase.Helpers
             }
         }
 
+        //Creating and adding list items of all driving licenses to a listbox and select driver's one
         public static void AddDrivingLicenses(this List<SelectListItem> list, Driver driver = null)
         {
             if (list.Count > 0)
@@ -99,7 +105,7 @@ namespace Autobase.Helpers
                 list.Clear();
             }
 
-            RouteDbManager dbManager = new RouteDbManager();
+            DbManager dbManager = new DbManager();
             List<DrivingLicenseType> licenses = dbManager.GetDrivingLicenseTypes();
 
             SelectListItem item;
@@ -113,6 +119,7 @@ namespace Autobase.Helpers
 
                 if (driver != null)
                 {
+                    //Select if this license belongs to the current driver
                     item.Selected = driver.DrivingLicenses.Where(l => l.DrivingLicenseTypeId == license.DrivingLicenseTypeId).Count() > 0;
                 }
                 list.Add(item);

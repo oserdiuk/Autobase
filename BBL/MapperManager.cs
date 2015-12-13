@@ -9,6 +9,7 @@ namespace BBL
 {
     public static class MapperManager
     {
+        //Map entities to the list of view models
         public static List<R> GetViewListOfEntity<I, R>(List<I> entities)
         {
             List<R> result = new List<R>();
@@ -16,6 +17,7 @@ namespace BBL
             return result;
         }
 
+        //Map one object to another object
         public static R Map<I, R>(I source)
         {
             return Mapper.Map<I, R>(source);

@@ -1,23 +1,13 @@
 ﻿@model Autobase.Models.EntityViewModels.UserViewModel
 
 @{
-    ViewBag.Title = "ManagerDetails";
+    ViewBag.Title = "Менеджер";
 }
 
-<h2>ManagerDetails</h2>
 
 <div>
-    <h4>UserViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
@@ -81,18 +71,8 @@
         <dd>
             @Html.DisplayFor(model => model.EmploymentDate)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.UserId, role = BBL.RoleEnum.Manager }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад", "Index")
 </p>

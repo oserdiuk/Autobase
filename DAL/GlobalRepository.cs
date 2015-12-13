@@ -141,6 +141,7 @@ namespace DAL
             var doneId = GetDoneStatusId();
             var waitingForConfirmId = GetWaitingForConfirmStatusId();
 
+            //Update route statuses automatically:
             //var routes = this.RouteRepository.GetAll();
             //routes.Where(route => route.DepartureDate < DateTime.Now && route.RouteStatusId != waitingForConfirmId).ToList<Route>()
             //    .ForEach(route => route.RouteStatusId = inProgressId);
@@ -213,9 +214,14 @@ namespace DAL
         }
 
         public void Dispose()
-        {
+        {            
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public int GetCancelRouteStatus()
+        {
+            return this.RouteStatusRepository.GetAll().Where(s => s.StatusName.ToLower().Contains("отмене")).FirstOrDefault().RouteStatusId;
         }
     }
 }

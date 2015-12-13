@@ -27,7 +27,6 @@ namespace Autobase
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             InitializeAutoMapper.Initialize();
-
             LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
 
